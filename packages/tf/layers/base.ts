@@ -154,13 +154,23 @@ export class Layer {
 
     let code = `${this.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
+      if (arg.value === arg.defaultValue) return;
       code += arg.getCompiledString();
       if (i !== this.args.length - 1) {
         code += ", ";
       }
     });
-
     code += ")";
+
+    if (this.input_nodes.length > 0) {
+      switch (this.input_nodes.length) {
+        case 1:
+          code += `(${this.input_nodes.map((node) => node.name).join(", ")})`;
+          break;
+        default:
+          code += `([${this.input_nodes.map((node) => node.name).join(", ")}])`;
+      }
+    }
 
     return { code, link };
   }
