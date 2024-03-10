@@ -79,7 +79,7 @@ function BaseInput(props: BaseInputProps<p_types>) {
     case supported_types.float:
       return (
         <Input
-          className="text-[0.5rem] h-[20px] w-10"
+          className="text-[0.5rem] h-[20px] w-20"
           placeholder={placeholder}
           type="number"
           onChange={(e) => (value.value = parseFloat(e.target.value))}

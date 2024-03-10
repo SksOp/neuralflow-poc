@@ -32,23 +32,22 @@ export default function Home() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
-  const graph = useRef<Record<string, string[]>>({});
+  // const graph = useRef<Record<string, string[]>>({});
   // const [topologicalOrder, setTopologicalOrder] = useState<string[]>([]);
   const onConnect: OnConnect = useCallback(
     (connection) => {
       setEdges((eds) => addEdge(connection, eds));
       console.log("onConnect", connection);
-      if (connection.source && connection.target) {
-        if (!graph.current[connection.source]) {
-          graph.current[connection.source] = [];
+
+      nodes.map((node) => {
+        if (node.id === connection.target) {
+          const sourceNode = nodes.find((n) => n.id === connection.source);
+          if (sourceNode) node.data.input_nodes.push(sourceNode.data);
         }
-        graph.current[connection.source].push(connection.target);
-        if (!graph.current[connection.target]) {
-          graph.current[connection.target] = [];
-        }
-      }
+      });
+      console.log(nodes);
     },
-    [setEdges, graph],
+    [setEdges, nodes],
   );
 
   const generateCode = () => {
