@@ -22,9 +22,10 @@ export class Model {
 
   compile(): string {
     const revSorted = revTopSort(this.layers);
-
     const sorted: Layer[] = [];
-    revSorted.forEach((l) => sorted.push(l));
+    revSorted.forEach((l, i) =>
+      sorted.push(revSorted[revSorted.length - 1 - i]),
+    );
 
     const importStack: string[] = [];
     const codeStack: string[] = [];

@@ -154,7 +154,7 @@ export class Layer {
 
     let code = `${this.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
-      if (arg.value === arg.defaultValue) return;
+      // if (arg.value === arg.defaultValue) return;
       code += arg.getCompiledString();
       if (i !== this.args.length - 1) {
         code += ", ";
@@ -165,10 +165,10 @@ export class Layer {
     if (this.input_nodes.length > 0) {
       switch (this.input_nodes.length) {
         case 1:
-          code += `(${this.input_nodes.map((node) => node.name).join(", ")})`;
+          code += `(${this.input_nodes.map((node) => node.ref).join(", ")})`;
           break;
         default:
-          code += `([${this.input_nodes.map((node) => node.name).join(", ")}])`;
+          code += `([${this.input_nodes.map((node) => node.ref).join(", ")}])`;
       }
     }
 
