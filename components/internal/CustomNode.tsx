@@ -27,7 +27,7 @@ function CustomNode(props: NodeProps<L>) {
   const { name, args } = data;
   // console.log(data, id);
   return (
-    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-42">
+    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-44">
       <Handle
         id="a"
         type="target"
@@ -44,7 +44,7 @@ function CustomNode(props: NodeProps<L>) {
       >
         {name}
       </h2>
-      <div className="p-2">
+      <div className="p-2 w-full">
         {args.map((arg) => {
           return <ArgsInput key={arg.name + id} arg={arg} />;
         })}
