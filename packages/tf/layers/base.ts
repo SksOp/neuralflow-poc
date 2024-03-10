@@ -55,7 +55,7 @@ export class Args {
         `The argument ${this.name} is required and has no default value.`,
       );
     }
-    return `${this.name}: ${this.value.toCodeString()}`;
+    return `${this.name}=${this.value.toCodeString()}`;
   }
 }
 /**
