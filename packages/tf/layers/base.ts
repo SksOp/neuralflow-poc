@@ -159,8 +159,17 @@ export class Layer {
         code += ", ";
       }
     });
-
     code += ")";
+
+    if (this.input_nodes.length > 0) {
+      switch (this.input_nodes.length) {
+        case 1:
+          code += `(${this.input_nodes.map((node) => node.name).join(", ")})`;
+          break;
+        default:
+          code += `([${this.input_nodes.map((node) => node.name).join(", ")}])`;
+      }
+    }
 
     return { code, link };
   }
