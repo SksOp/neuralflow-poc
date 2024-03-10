@@ -154,7 +154,11 @@ export class Layer {
 
     let code = `${this.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
-      // if (arg.value === arg.defaultValue) return;
+      if (arg.value === null)
+        throw new Error(
+          `The argument ${arg.name} is required and has no default value.`,
+        );
+      if (arg.value?.value === arg.defaultValue?.value) return;
       code += arg.getCompiledString();
       if (i !== this.args.length - 1) {
         code += ", ";

@@ -33,7 +33,7 @@ export class Model {
     const existingRefs = new Set<string>();
 
     sorted.forEach((layer, index) => {
-      const ref = `${layer.name.toLowerCase()}_${index}`;
+      const ref = `${layer.name.toLowerCase().replace(" ", "_")}_${index}`;
 
       if (existingRefs.has(ref)) {
         const duplicates = sorted.filter((l) => l.ref === ref);
