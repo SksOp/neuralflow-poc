@@ -8,6 +8,8 @@ import { Int, Str, Tuple, p_types } from "@/packages/typewriter";
 import { useState } from "react";
 
 export function ArgsInput({ arg }: { arg: Args }) {
+  //   const [type, setType] = useState<supported_types>(arg.defaultValue?.type ?? supported_types.noneType);
+
   return (
     <div key={arg.getCaptalisedName()}>
       <Label className="text-[0.5rem] m-0">{arg.getCaptalisedName()}</Label>
@@ -23,7 +25,7 @@ function ArgTypeInput({ arg }: { arg: Args }) {
   const [type, setType] = useState<supported_types>(
     arg.value?.type ?? supported_types.noneType,
   );
-  if (!arg.value) {
+  if (!arg.defaultValue || !arg.value) {
     return (
       <BaseInput
         placeholder={""}
@@ -35,10 +37,10 @@ function ArgTypeInput({ arg }: { arg: Args }) {
     );
   }
 
-  const placeholder = arg.value.value;
+  const placeholder = arg.defaultValue;
   return (
     <BaseInput
-      placeholder={placeholder?.toString()}
+      placeholder={placeholder.toCodeString()}
       value={arg.value as p_types}
       onChange={onChange}
       type={type}
