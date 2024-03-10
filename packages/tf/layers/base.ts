@@ -85,6 +85,13 @@ export class Layer {
    * Input nodes of the layer to whome it is connected to
    */
   input_nodes: Layer[] = [];
+  /**
+   * Output ref with which layer will be stored in the python code
+   * example
+   * batchNormalization_1 = BatchNormalization()(input_for_batchNormalization)
+   * batchNormalization_1 is the ref
+   */
+  ref: string | null = null;
 
   /**
    * Id of the layer
@@ -122,15 +129,30 @@ export class Layer {
   }
 
   /**
+   * Set the ref of the layer
+   * @param {string} ref
+   */
+  setRef(ref: string) {
+    this.ref = ref;
+  }
+
+  /**
    * @compiler
    *
    * @return {*}  { code: string; link: string }
    * @memberof Layer
    */
   compileLayer(): { code: string; link: string } {
+    if (!this.ref)
+      throw new Error(`The ref is not set for the layer ${this.name}
+    Please set the ref before compiling the layer.
+    check the compile method of the model class for more details.
+    src/packages/tf/model/base.ts
+    `);
+
     const link = `from tensorflow.keras.layers import ${this.nameTf}`;
-    let code = `${this.nameTf}(`;
-    console.log(this.args);
+
+    let code = `${this.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
       code += arg.getCompiledString();
       if (i !== this.args.length - 1) {
