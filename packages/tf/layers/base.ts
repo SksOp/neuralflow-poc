@@ -94,26 +94,41 @@ export class Layer {
   ref: string | null = null;
 
   /**
-   * Id of the layer
-   * id: string;
-   * for now neglecting this idea of id, I was thinking to use this as the value in which it will be stored in the py
-   * id = batchNormalization_1
-   * batchNormalization_1 = BatchNormalization()(input_for_batchNormalization)
+   * if the layer allow to have input from multiple layers
+   * default is false
+   * if true then the layer will accept multiple input layers
    */
+  isMultipleAllowed: boolean;
+
+  /**
+   * Maximum number of input layers allowed
+   * default is Number.MAX_VALUE
+   * don't initialize it with 0 or negative number
+   *
+   * if isMultipleAllowed is true then this will be used to check the maximum number of input layers
+   */
+
+  maxMultiple: number;
 
   constructor({
     name,
     nameTf,
     args,
+    isMultipleAllowed = false,
+    maxMultiple = Number.MAX_VALUE,
   }: {
     name: string;
     nameTf: string;
     args: ArgsInstance[];
+    isMultipleAllowed?: boolean;
+    maxMultiple?: number;
   }) {
     this.name = name;
     this.nameTf = nameTf;
     this.args = args.map((a) => new Args(a));
     this.kwargs = [];
+    this.isMultipleAllowed = isMultipleAllowed;
+    this.maxMultiple = maxMultiple;
   }
 
   static of({

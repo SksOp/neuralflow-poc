@@ -6,4 +6,5 @@ export const concatenate = () =>
     name: "Concatenate", // to be shown on our UI
     nameTf: "Concatenate", // name avaialable in tensorflow
     args,
+    isMultipleAllowed: true,
   });
