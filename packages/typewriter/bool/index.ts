@@ -7,7 +7,7 @@ export class Bool implements py {
     this.value = i ?? false;
   }
   toCodeString(): string {
-    return this.value.toString();
+    return this.value ? "True" : "False";
   }
   static of(i?: boolean): Bool {
     return new Bool(i ?? false);
