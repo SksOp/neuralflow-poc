@@ -5,7 +5,11 @@ export const args: ArgsInstance[] = [
   {
     name: "input_shape",
     isRequired: false,
-    defaultValue: Tuple.of(Int.of(32), Int.of(32), Int.of(3)),
+    defaultValue: Tuple.of(
+      Tuple.of(None.of(), Int.of(26)),
+      Int.of(32),
+      Int.of(3),
+    ),
   },
   {
     name: "batch_size",

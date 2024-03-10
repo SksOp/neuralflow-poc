@@ -27,7 +27,7 @@ function CustomNode(props: NodeProps<L>) {
   const { name, args } = data;
   // console.log(data, id);
   return (
-    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm ">
+    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-42">
       <Handle
         id="a"
         type="target"

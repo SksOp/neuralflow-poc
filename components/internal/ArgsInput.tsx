@@ -6,6 +6,13 @@ import { Input } from "../ui/input";
 import { supported_types } from "@/packages/typewriter/type";
 import { Int, Str, Tuple, p_types } from "@/packages/typewriter";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function ArgsInput({ arg }: { arg: Args }) {
   //   const [type, setType] = useState<supported_types>(arg.defaultValue?.type ?? supported_types.noneType);
@@ -62,17 +69,63 @@ function BaseInput(props: BaseInputProps<p_types>) {
   switch (type) {
     case supported_types.int:
       return (
-        <Input className="text-[0.5rem] h-[20px]" placeholder={placeholder} />
+        <Input
+          className="text-[0.5rem] h-[20px] w-20"
+          placeholder={placeholder}
+          type="number"
+          onChange={(e) => (value.value = parseInt(e.target.value))}
+        />
+      );
+    case supported_types.float:
+      return (
+        <Input
+          className="text-[0.5rem] h-[20px] w-10"
+          placeholder={placeholder}
+          type="number"
+          onChange={(e) => (value.value = parseFloat(e.target.value))}
+        />
+      );
+    case supported_types.str:
+      return (
+        <Input
+          className="text-[0.5rem] h-[20px] w-42"
+          placeholder={placeholder}
+          type="text"
+          onChange={(e) => (value.value = e.target.value)}
+        />
+      );
+    case supported_types.bool:
+      return (
+        <>
+          <Input
+            placeholder={placeholder}
+            type="text"
+            onChange={(e) => (value.value = e.target.value)}
+          />
+          <Select>
+            <SelectTrigger className="text-[0.5rem] h-[20px] w-10">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">True</SelectItem>
+              <SelectItem value="false">False</SelectItem>
+            </SelectContent>
+          </Select>
+        </>
       );
     case supported_types.noneType:
-      return <Input className="text-[0.5rem] h-[20px]" placeholder={"None"} />;
+      return (
+        <Input className="text-[0.5rem] h-[20px] w-20" placeholder={"None"} />
+      );
     case supported_types.tuple:
       return (
-        <TupleInput
-          {...props}
-          type={supported_types.tuple}
-          value={value as Tuple}
-        />
+        <div className="flex flex-row border p-0.5 m-0.5 items-center">
+          <TupleInput
+            {...props}
+            type={supported_types.tuple}
+            value={value as Tuple}
+          />
+        </div>
       );
 
     default:
@@ -81,13 +134,14 @@ function BaseInput(props: BaseInputProps<p_types>) {
 }
 
 function TupleInput(props: BaseInputProps<Tuple>) {
-  const { placeholder, value: tuple, onChange, arg } = props;
+  const { value: tuple, onChange, arg } = props;
+  console.log(tuple);
   const data = tuple.value.map((v) => {
     return (
       <BaseInput
         key={v.toCodeString()}
-        placeholder={v.value?.toString()}
-        value={v.value}
+        placeholder={v.value ? v.value.toString() : "None"} // will never be undefined
+        value={v}
         onChange={onChange}
         type={v.type}
         arg={arg}
