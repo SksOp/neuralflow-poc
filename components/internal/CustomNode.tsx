@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { supported_types } from "@/packages/typewriter";
+import { ArgsInput } from "./ArgsInput";
 
-interface argsValUser {
-  id: string;
-  Layer: L;
-}
+// interface argsValUser {
+//   id: string;
+//   Layer: L;
+// }
 
 function isAllOptionalArgs(args: L["args"]) {
   return args.every((arg) => !arg.isRequired);
@@ -26,7 +27,7 @@ function CustomNode(props: NodeProps<L>) {
   const { name, args } = data;
   // console.log(data, id);
   return (
-    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm ">
+    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-42">
       <Handle
         id="a"
         type="target"
@@ -35,63 +36,19 @@ function CustomNode(props: NodeProps<L>) {
         onConnect={(params) => console.log("handle onConnect", params)}
         isConnectable={isConnectable}
       />
-
-      <Accordion className="" type="single" collapsible>
-        <AccordionItem
-          className="flex flex-col items-center py-2"
-          value="item-1"
-        >
-          <h2
-            className={cn(
-              "text-center font-bold border-b-white border-b-2 p-3 w-full",
-              !isAllOptionalArgs(args) ? "mb-2" : "",
-            )}
-          >
-            {name}
-          </h2>
-          <div className="px-2 ">
-            {args.map((arg) => {
-              console.log(arg);
-              // console.log(arg.value.type === supported_types.tuple);
-              if (arg.isRequired)
-                return (
-                  <div key={arg.getCaptalisedName()}>
-                    <Label className="text-[0.5rem] m-0">
-                      {arg.getCaptalisedName()}
-                    </Label>
-                    <Input className="text-[0.5rem] h-[20px]" />
-                  </div>
-                );
-            })}
-          </div>
-          <AccordionTrigger className="flex items-center gap-1 text-[0.5rem] p-3">
-            Parameters
-          </AccordionTrigger>
-
-          <AccordionContent className="">
-            <div className="px-2 pb-2">
-              {args.map((arg) => {
-                if (!arg.isRequired)
-                  return (
-                    <div key={arg.getCaptalisedName()}>
-                      <Label className="text-[0.5rem] m-0">
-                        {arg.getCaptalisedName()}
-                      </Label>
-                      <Input
-                        className="text-[0.5rem] h-[20px]"
-                        // onChange={(e) => {
-                        //   arg.value = e.target.value;
-                        // }}
-                        placeholder={String(arg.defaultValue)}
-                      />
-                    </div>
-                  );
-              })}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
+      <h2
+        className={cn(
+          "text-center font-bold border-b-white border-b-2 p-3 w-full",
+          !isAllOptionalArgs(args) ? "mb-2" : "",
+        )}
+      >
+        {name}
+      </h2>
+      <div className="p-2">
+        {args.map((arg) => {
+          return <ArgsInput key={arg.name + id} arg={arg} />;
+        })}
+      </div>
       <Handle
         id="b"
         type="source"
