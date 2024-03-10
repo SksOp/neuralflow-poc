@@ -154,6 +154,7 @@ export class Layer {
 
     let code = `${this.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
+      if (arg.value === arg.defaultValue) return;
       code += arg.getCompiledString();
       if (i !== this.args.length - 1) {
         code += ", ";
