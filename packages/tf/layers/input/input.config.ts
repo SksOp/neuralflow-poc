@@ -1,11 +1,11 @@
-import { None } from "@/packages/typewriter";
+import { Int, None, Tuple } from "@/packages/typewriter";
 import { ArgsInstance } from "../base";
 
 export const args: ArgsInstance[] = [
   {
     name: "input_shape",
     isRequired: false,
-    defaultValue: None.of(),
+    defaultValue: Tuple.of(Int.of(32), Int.of(32), Int.of(3)),
   },
   {
     name: "batch_size",
