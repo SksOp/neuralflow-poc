@@ -2,7 +2,7 @@ import { py, supported_types } from "../type";
 
 export class Bool implements py {
   value: boolean = false;
-  type: supported_types = supported_types.int;
+  type: supported_types = supported_types.bool;
   constructor(i?: boolean) {
     this.value = i ?? false;
   }
