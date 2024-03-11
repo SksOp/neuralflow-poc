@@ -275,6 +275,11 @@ function TupleInput(props: BaseInputProps<Tuple>) {
     onChange(tuple);
   };
   const tupleElements = tuple.value.map((v, index) => {
+    const newArg = new Args({
+      name: "tuple handler",
+      isRequired: false,
+      defaultValue: v,
+    });
     return (
       <div
         key={get_id()}
@@ -289,7 +294,7 @@ function TupleInput(props: BaseInputProps<Tuple>) {
           }}
           type={v.type}
           setType={(newType) => setTypeAtIndex(index, newType)}
-          arg={tuple.value}
+          arg={newArg}
         />
         {/* when index is last the show + sign */}
         {index === tuple.value.length - 1 && (
