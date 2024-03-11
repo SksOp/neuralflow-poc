@@ -9,7 +9,7 @@ export class Float implements py {
   toCodeString(): string {
     return this.value.toString();
   }
-  static of(i: number): Float {
-    return new Float(i);
+  static of(i?: number): Float {
+    return new Float(i ?? 0);
   }
 }

@@ -23,6 +23,7 @@ import { topologicalSort } from "@/lib/topologicalSort";
 import { generateCodeCallback } from "@/lib/nodeToCode";
 import { Node } from "reactflow";
 import { Layer, Model } from "@/packages/tf";
+
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -32,6 +33,7 @@ export default function Home() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
+  // console.log(nodes);
   // const graph = useRef<Record<string, string[]>>({});
   // const [topologicalOrder, setTopologicalOrder] = useState<string[]>([]);
   const onConnect: OnConnect = useCallback(

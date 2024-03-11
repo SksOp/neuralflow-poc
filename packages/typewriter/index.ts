@@ -9,6 +9,7 @@ import { Tuple } from "./tuple";
 export type p_types = p_primitive_types | Dict | List | Tuple | None;
 export * from "./str";
 export * from "./tuple";
+export * from "./float";
 export * from "./int";
 export * from "./bool";
 export * from "./type";

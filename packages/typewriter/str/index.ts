@@ -9,7 +9,7 @@ export class Str implements py {
   toCodeString(): string {
     return `"${this.value}"`;
   }
-  static of(s: string): Str {
-    return new Str(s);
+  static of(s?: string): Str {
+    return new Str(s ?? "");
   }
 }

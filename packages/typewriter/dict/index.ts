@@ -17,7 +17,7 @@ export class Dict implements py {
   }
 
   // Static method for creating a new Tuple instance
-  static of(elements: Record<string | number, p_types>): Dict {
-    return new Dict(elements);
+  static of(elements?: Record<string | number, p_types>): Dict {
+    return new Dict(elements ?? {});
   }
 }
