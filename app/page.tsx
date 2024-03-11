@@ -33,7 +33,6 @@ export default function Home() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
-  // console.log(nodes);
   // const graph = useRef<Record<string, string[]>>({});
   // const [topologicalOrder, setTopologicalOrder] = useState<string[]>([]);
   const onConnect: OnConnect = useCallback(
@@ -47,16 +46,17 @@ export default function Home() {
           if (sourceNode) node.data.input_nodes.push(sourceNode.data);
         }
       });
-      console.log(nodes);
     },
     [setEdges, nodes],
   );
 
-  const generateCode = () => {
+  const generateCode = useCallback(() => {
     const layers = nodes.map((node) => node.data);
     const model = Model.of({ layers }).compile();
     console.log(model);
-  };
+  }, [nodes]);
+
+  // console.log(nodes);
 
   return (
     <LayoutMain>
