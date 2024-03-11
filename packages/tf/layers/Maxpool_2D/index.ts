@@ -3,7 +3,7 @@ import { args } from "./maxpool_2d.config";
 
 export const maxpool_2d = () =>
   new Layer({
-    name: "Maxpool 2D", // to be shown on our UI
+    name: "Max Pooling         2D", // to be shown on our UI
     nameTf: "Maxpool2D", // name avaialable in tensorflow
     args,
   });
