@@ -1,5 +1,5 @@
 import { Layer } from "../base";
-import { args } from "./Flatten.config";
+import { args } from "./flatten.config";
 
 export const flatten = () =>
   new Layer({

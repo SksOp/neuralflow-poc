@@ -9,6 +9,7 @@ import { average_pool_2d } from "./average_pooling_2D";
 import { global_average_pool_2d } from "./global_average_pooling_2D";
 import { global_max_pool_2d } from "./global_max_pooling_2D";
 import { spatial_dropout_2d } from "./spatial_dropout";
+import { multiply } from "./multiply";
 
 export * from "./input";
 export * from "./base";
@@ -23,5 +24,6 @@ export const layers = [
   average_pool_2d,
   global_average_pool_2d,
   global_max_pool_2d,
-  spatial_dropout_2d
+  spatial_dropout_2d,
+  multiply,
 ];
