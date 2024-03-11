@@ -7,4 +7,5 @@ export const add = () =>
     nameTf: "Add", // name avaialable in tensorflow
     args,
     isMultipleAllowed: true,
+    maxMultiple: 3,
   });

@@ -11,6 +11,7 @@ import { global_max_pool_2d } from "./global_max_pooling_2D";
 import { spatial_dropout_2d } from "./spatial_dropout";
 import { multiply } from "./multiply";
 import { add } from "./add";
+import { attention } from "./attention";
 
 export * from "./input";
 export * from "./base";
@@ -27,5 +28,6 @@ export const layers = [
   global_max_pool_2d,
   spatial_dropout_2d,
   multiply,
-  add
+  add,
+  attention,
 ];
