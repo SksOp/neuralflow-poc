@@ -1,4 +1,4 @@
-import { None } from "@/packages/typewriter";
+import { Bool, Int, None, Tuple } from "@/packages/typewriter";
 import { ArgsInstance } from "../base";
 
 export const args: ArgsInstance[] = [

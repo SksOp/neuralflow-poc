@@ -14,6 +14,6 @@ export class List implements py {
   }
 
   static of(...elements: p_primitive_types[]): p_types {
-    return new List(...elements);
+    return new List(...(elements ?? []));
   }
 }

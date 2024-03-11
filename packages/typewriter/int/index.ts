@@ -9,7 +9,7 @@ export class Int implements py {
   toCodeString(): string {
     return this.value.toString();
   }
-  static of(i: number): Int {
-    return new Int(i);
+  static of(i?: number): Int {
+    return new Int(i ?? 0);
   }
 }

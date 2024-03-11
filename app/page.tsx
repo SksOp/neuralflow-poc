@@ -23,6 +23,7 @@ import { topologicalSort } from "@/lib/topologicalSort";
 import { generateCodeCallback } from "@/lib/nodeToCode";
 import { Node } from "reactflow";
 import { Layer, Model } from "@/packages/tf";
+
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -45,16 +46,17 @@ export default function Home() {
           if (sourceNode) node.data.input_nodes.push(sourceNode.data);
         }
       });
-      console.log(nodes);
     },
     [setEdges, nodes],
   );
 
-  const generateCode = () => {
+  const generateCode = useCallback(() => {
     const layers = nodes.map((node) => node.data);
     const model = Model.of({ layers }).compile();
     console.log(model);
-  };
+  }, [nodes]);
+
+  // console.log(nodes);
 
   return (
     <LayoutMain>
