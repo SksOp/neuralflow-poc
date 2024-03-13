@@ -84,7 +84,7 @@ export class Layer {
   /**
    * Input nodes of the layer to whome it is connected to
    */
-  input_nodes: Layer[] = [];
+  input_nodes: Set<Layer> = new Set();
   /**
    * Output ref with which layer will be stored in the python code
    * example
@@ -181,13 +181,13 @@ export class Layer {
     });
     code += ")";
 
-    if (this.input_nodes.length > 0) {
-      switch (this.input_nodes.length) {
+    if (this.input_nodes.size > 0) {
+      switch (this.input_nodes.size) {
         case 1:
-          code += `(${this.input_nodes.map((node) => node.ref).join(", ")})`;
+          code += `(${Array.from(this.input_nodes, (node) => node.ref).join(", ")})`;
           break;
         default:
-          code += `([${this.input_nodes.map((node) => node.ref).join(", ")}])`;
+          code += `([${Array.from(this.input_nodes, (node) => node.ref).join(", ")}])`;
       }
     }
 
