@@ -1,6 +1,5 @@
-import { Int, Str, Bool, None } from "@/packages/typewriter";
+import { Int, Str, Bool, None, Float } from "@/packages/typewriter";
 import { ArgsInstance } from "../base";
-import { Float } from "@/packages/typewriter/float";
 
 export const args: ArgsInstance[] = [
   {

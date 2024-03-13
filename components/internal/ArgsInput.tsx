@@ -107,7 +107,9 @@ function ArgTypeInput({ arg }: { arg: Args }) {
   const [type, setType] = useState<supported_types>(
     arg.value?.type ?? supported_types.noneType,
   );
-  if (!arg.defaultValue || !arg.value) {
+
+  const defaultValue = arg.getDefaultValue();
+  if (!defaultValue || !arg.value) {
     return (
       <BaseInput
         placeholder={""}
@@ -159,7 +161,10 @@ function BaseInput(props: BaseInputProps<p_types>) {
             className="text-[0.5rem] h-[20px] w-1/2"
             placeholder={placeholder}
             type="number"
-            onChange={(e) => (value.value = parseInt(e.target.value))}
+            onChange={(e) => {
+              console.log(e.target.value);
+              return (value.value = parseInt(e.target.value));
+            }}
           />
           <TypeSelector
             className="w-1/2"

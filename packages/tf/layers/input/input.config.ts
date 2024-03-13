@@ -3,7 +3,7 @@ import { ArgsInstance } from "../base";
 
 export const args: ArgsInstance[] = [
   {
-    name: "input_shape",
+    name: "shape",
     isRequired: false,
     defaultValue: None.of(),
   },

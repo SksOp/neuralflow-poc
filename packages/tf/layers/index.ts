@@ -1,7 +1,7 @@
 import { batch_normalization } from "./batch_normalization";
 import { dense } from "./dense";
 import { concatenate } from "./concatenate";
-import { maxpool_2d } from "./maxpool_2D";
+import { maxpooling_2d } from "./maxpooling_2D";
 import { conv_2d } from "./conv_2D";
 import { flatten } from "./flatten";
 import { dropout } from "./dropout";
@@ -12,6 +12,7 @@ import { spatial_dropout_2d } from "./spatial_dropout";
 import { multiply } from "./multiply";
 import { add } from "./add";
 import { attention } from "./attention";
+import { up_sampling_2d } from "./up_sampling_2d";
 
 export * from "./input";
 export * from "./base";
@@ -19,7 +20,7 @@ export const layers = [
   dense,
   batch_normalization,
   concatenate,
-  maxpool_2d,
+  maxpooling_2d,
   conv_2d,
   flatten,
   dropout,
@@ -30,4 +31,5 @@ export const layers = [
   multiply,
   add,
   attention,
+  up_sampling_2d,
 ];

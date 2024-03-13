@@ -1,16 +1,27 @@
 import React, { memo, useCallback, useState } from "react";
 import { Layer as L } from "@/packages/tf";
-import { Handle, NodeProps, Position } from "reactflow";
+import { Handle, NodeProps, Position, useOnSelectionChange } from "reactflow";
 import { cn } from "@/lib/utils";
 import { supported_types } from "@/packages/typewriter";
 import { ArgsInput } from "./ArgsInput";
 
 function CustomNode(props: NodeProps<L>) {
-  const { id, data, isConnectable } = props;
+  const { id, data, selected, isConnectable } = props;
   const { name, args } = data;
+  // useOnSelectionChange({
+  //   onChange: ({ nodes, edges }) => {
+  //     console.log(nodes, edges);
+  //   },
+  // });
+
   // console.log(data, id);
   return (
-    <div className="flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-52">
+    <div
+      className={cn(
+        "flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-52",
+        selected ? "border-orange-300" : "",
+      )}
+    >
       <Handle
         id="a"
         type="target"

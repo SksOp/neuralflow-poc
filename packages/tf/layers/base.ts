@@ -1,4 +1,5 @@
 import { p_types } from "@/packages/typewriter";
+import { cloneDeep } from "lodash";
 
 interface ArgsInstanceBase {
   name: string;
@@ -18,7 +19,7 @@ export type ArgsInstance = ArgsInstanceRequired | ArgsInstanceWithDefault;
 export class Args {
   value: p_types | null;
   name: string;
-  defaultValue: p_types | null;
+  private defaultValue: p_types | null;
   isRequired: boolean;
 
   /**
@@ -30,7 +31,7 @@ export class Args {
     this.isRequired = i.isRequired;
     if (!i.isRequired) {
       this.defaultValue = i.defaultValue;
-      this.value = this.defaultValue;
+      this.value = cloneDeep(this.defaultValue);
       return;
     }
     this.defaultValue = null;
@@ -47,6 +48,15 @@ export class Args {
       .split("_")
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
       .join(" ");
+  }
+
+  getDefaultValue(): p_types | null {
+    return cloneDeep(this.defaultValue);
+  }
+
+  compileWithDefaultValue(): string {
+    if (!this.defaultValue) return "";
+    return `${this.name}=${this.defaultValue.toCodeString()}`;
   }
 
   getCompiledString(): string {
@@ -84,7 +94,7 @@ export class Layer {
   /**
    * Input nodes of the layer to whome it is connected to
    */
-  input_nodes: Layer[] = [];
+  input_nodes: Set<Layer> = new Set();
   /**
    * Output ref with which layer will be stored in the python code
    * example
@@ -173,7 +183,7 @@ export class Layer {
         throw new Error(
           `The argument ${arg.name} is required and has no default value.`,
         );
-      if (arg.value?.value === arg.defaultValue?.value) return;
+      if (arg.getCompiledString() === arg.compileWithDefaultValue()) return;
       code += arg.getCompiledString();
       if (i !== this.args.length - 1) {
         code += ", ";
@@ -181,13 +191,13 @@ export class Layer {
     });
     code += ")";
 
-    if (this.input_nodes.length > 0) {
-      switch (this.input_nodes.length) {
+    if (this.input_nodes.size > 0) {
+      switch (this.input_nodes.size) {
         case 1:
-          code += `(${this.input_nodes.map((node) => node.ref).join(", ")})`;
+          code += `(${Array.from(this.input_nodes, (node) => node.ref).join(", ")})`;
           break;
         default:
-          code += `([${this.input_nodes.map((node) => node.ref).join(", ")}])`;
+          code += `([${Array.from(this.input_nodes, (node) => node.ref).join(", ")}])`;
       }
     }
 
