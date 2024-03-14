@@ -1,11 +1,14 @@
-import { p_types } from "..";
+import { BaseType } from "../python_primitive";
 import { py, supported_types } from "../type";
+import { p_types } from "../index";
 
-export class Dict implements py {
+export class Dict
+  extends BaseType<Record<string | number, p_types | Dict>>
+  implements py
+{
   // Constructor to initialize the Tuple
-  value: Record<string | number, p_types | Dict>;
-  type: supported_types = supported_types.dict;
   constructor(elements: Record<string | number, p_types | Dict>) {
+    super(elements, supported_types.dict);
     this.value = elements;
   }
 

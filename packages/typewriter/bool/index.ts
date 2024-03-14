@@ -1,10 +1,9 @@
+import { BaseType } from "../python_primitive";
 import { py, supported_types } from "../type";
 
-export class Bool implements py {
-  value: boolean = false;
-  type: supported_types = supported_types.bool;
+export class Bool extends BaseType<boolean> implements py {
   constructor(i?: boolean) {
-    this.value = i ?? false;
+    super(i ?? false, supported_types.bool);
   }
   toCodeString(): string {
     return this.value ? "True" : "False";

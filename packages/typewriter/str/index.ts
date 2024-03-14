@@ -1,10 +1,9 @@
+import { BaseType } from "../python_primitive";
 import { py, supported_types } from "../type";
 
-export class Str implements py {
-  value: string = "";
-  type: supported_types = supported_types.str;
+export class Str extends BaseType<string> implements py {
   constructor(s: string) {
-    this.value = s;
+    super(s, supported_types.str);
   }
   toCodeString(): string {
     return `"${this.value}"`;
