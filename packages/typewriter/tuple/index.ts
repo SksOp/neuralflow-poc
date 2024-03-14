@@ -1,12 +1,10 @@
 import { p_types } from "..";
+import { BaseType } from "../python_primitive";
 import { py, supported_types } from "../type";
 
-export class Tuple implements py {
-  // Constructor to initialize the Tuple
-  value: p_types[];
-  type: supported_types = supported_types.tuple;
+export class Tuple extends BaseType<p_types[]> implements py {
   constructor(...elements: p_types[]) {
-    this.value = elements;
+    super(elements, supported_types.tuple);
   }
 
   // Method to convert the Tuple into a code string format

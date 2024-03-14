@@ -1,5 +1,3 @@
-import { p_types } from ".";
-
 export interface py {
   value: unknown;
   type: supported_types;

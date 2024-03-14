@@ -1,10 +1,9 @@
+import { BaseType } from "../python_primitive";
 import { WithStaticOf, py, supported_types } from "../type";
 
-export class Int implements py {
-  value: number = 0;
-  type: supported_types = supported_types.int;
+export class Int extends BaseType<number> implements py {
   constructor(i: number) {
-    this.value = i;
+    super(i, supported_types.int);
   }
   toCodeString(): string {
     return this.value.toString();

@@ -1,9 +1,8 @@
+import { BaseType } from "../python_primitive";
 import { py, supported_types } from "../type";
-export class None implements py {
-  value: null;
-  type: supported_types = supported_types.noneType;
+export class None extends BaseType<null> implements py {
   constructor() {
-    this.value = null;
+    super(null, supported_types.noneType);
   }
 
   toCodeString(): string {
