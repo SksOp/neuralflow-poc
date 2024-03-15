@@ -55,7 +55,7 @@ export async function sendBetaFeedback(data: SlackBetaFeedback) {
     await slack.chat.postMessage(arg);
     return true;
   } catch (error) {
-    console.error("Error sending slack message", error.data.response_metadata);
+    console.error("Error sending slack message", error);
     return false;
   }
 }
