@@ -203,4 +203,8 @@ export class Layer {
 
     return { code, link };
   }
+
+  cleanUp() {
+    this.input_nodes.clear();
+  }
 }

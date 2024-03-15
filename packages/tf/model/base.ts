@@ -47,11 +47,15 @@ export class Model {
         https://github.com/SksOp/neuralflow-poc/issues
         `);
       }
+
       existingRefs.add(ref);
       layer.setRef(ref);
+
       const { code, link } = layer.compileLayer();
       importStack.push(link);
+
       codeStack.push(code);
+      layer.cleanUp();
     });
 
     // using Set to remove duplicates from the importStack
