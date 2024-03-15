@@ -32,4 +32,4 @@ export const layers = [
   add,
   attention,
   up_sampling_2d,
-];
+].sort();

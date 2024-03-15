@@ -1,6 +1,8 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
+  Background,
+  BackgroundVariant,
   MiniMap,
   NodeChange,
   OnConnect,
@@ -10,6 +12,18 @@ import ReactFlow, {
   useNodesState,
   useOnSelectionChange,
 } from "reactflow";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import "reactflow/dist/style.css";
 
@@ -22,11 +36,15 @@ import { LayoutMain } from "@/components/layout-main";
 import { Sidebar } from "@/components/internal/Sidebar";
 import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { topologicalSort } from "@/lib/topologicalSort";
-import { generateCodeCallback } from "@/lib/nodeToCode";
 import { Node } from "reactflow";
 import { cloneDeep } from "lodash";
 import { Layer, Model } from "@/packages/tf";
+import { useToast } from "@/components/ui/use-toast";
+import { cn, downloadStringAsFile } from "@/lib/utils";
+import { ToastAction } from "@radix-ui/react-toast";
+import { Code } from "@/components/ui/code";
+import { CopyToClipboard } from "@/components/copy-to-clipboard";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const nodeTypes = {
   custom: CustomNode,
@@ -37,8 +55,10 @@ export default function Home() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
+  const { toast } = useToast();
   // const [selectedNode, setSelectedNode] = useState<Node<Layer>>();
-  const [selectedEdge, setSelectedEdge] = useState({});
+  const [code, setCode] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [copiedNode, setCopiedNode] = useState<Node<Layer>>();
   // Copy node logic
   const getSelectedNode = useCallback((nodes: Node<Layer>[]) => {
@@ -116,11 +136,17 @@ export default function Home() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+      if (
+        ((event.ctrlKey || event.metaKey) && event.key === "c") ||
+        event.key === "C"
+      ) {
         event.preventDefault();
         copyNode();
       }
-      if ((event.ctrlKey || event.metaKey) && event.key === "v") {
+      if (
+        ((event.ctrlKey || event.metaKey) && event.key === "v") ||
+        event.key === "V"
+      ) {
         event.preventDefault();
         pasteNode();
       }
@@ -129,7 +155,10 @@ export default function Home() {
         onNodesDelete();
         onEdgeDelete();
       }
-      if ((event.ctrlKey || event.metaKey) && event.key === "x") {
+      if (
+        ((event.ctrlKey || event.metaKey) && event.key === "x") ||
+        event.key === "X"
+      ) {
         event.preventDefault();
         copyNode();
         onNodesDelete();
@@ -159,11 +188,22 @@ export default function Home() {
       targetNode.data.input_nodes.add(sourceNode.data);
     });
     const layers = nodes.map((node) => node.data);
-    const model = Model.of({ layers }).compile();
-    console.log(model);
-  }, [edges, nodes]);
-
-  // console.log(nodes);
+    try {
+      const model = Model.of({ layers }).compile();
+      setCode(model); //.replace(/(^[ \t]*\n)/gm, "") not needed for now
+    } catch (err: any) {
+      console.log(err);
+      setIsDialogOpen(false);
+      toast({
+        duration: 100000,
+        className: cn(
+          "top-10 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
+        ),
+        title: "Error",
+        description: err.message,
+      });
+    }
+  }, [edges, nodes, toast]);
 
   return (
     <LayoutMain>
@@ -175,19 +215,48 @@ export default function Home() {
         // onNodesDelete={}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onInit={setReactFlowInstance}
+        onInit={(v: any) => {
+          toast({
+            duration: 100000,
+            className: cn(
+              "top-10 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
+            ),
+            title: "Alert: We are still in Beta",
+            description:
+              "Our platform is in the beta phase and might occasionally encounter errors. Please feel free to report any bugs via our issue tracker.",
+          });
+          return setReactFlowInstance(v);
+        }}
         // onNodeDragStart={(_, node) => setSelectedNode(node)}
         fitView
         nodeTypes={nodeTypes}
       >
+        <Background color="#F0F0F0" variant={BackgroundVariant.Lines} />
         <MiniMap position="bottom-left" nodeStrokeWidth={3} />
       </ReactFlow>
-      <Button
-        onClick={() => generateCode()}
-        className="h-[70px] w-[70px] absolute bottom-10 right-10 bg-orange-400 rounded-full text-black hover:text-white"
-      >
-        <Zap />
-      </Button>
+      <AlertDialog open={isDialogOpen}>
+        <AlertDialogTrigger
+          onClick={() => {
+            setIsDialogOpen(true);
+            generateCode();
+          }}
+          className="h-[70px] flex items-center justify-center w-[70px] absolute bottom-10 right-10 bg-orange-400 rounded-full text-black hover:text-white"
+        >
+          <Zap />
+        </AlertDialogTrigger>
+        <AlertDialogContent className="max-w-xl py-5 px-3">
+          <ScrollArea className="w-xl rounded-md border p-4">
+            <Code code={`\`\`\`py \n${code}`} />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+          <AlertDialogFooter>
+            <CopyToClipboard content={code} />
+            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+              Close
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </LayoutMain>
   );
 }

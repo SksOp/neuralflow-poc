@@ -112,7 +112,7 @@ function ArgTypeInput({ arg }: { arg: Args }) {
   if (!defaultValue || !arg.value) {
     return (
       <BaseInput
-        placeholder={""}
+        placeholder={arg.value ? arg.value.toCodeString() : ""}
         value={arg.value!} // will be null but using only as reference
         onChange={onChange}
         type={type}
@@ -162,7 +162,6 @@ function BaseInput(props: BaseInputProps<p_types>) {
             placeholder={placeholder}
             type="number"
             onChange={(e) => {
-              console.log(e.target.value);
               return (value.value = parseInt(e.target.value));
             }}
           />
