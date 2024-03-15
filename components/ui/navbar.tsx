@@ -18,11 +18,21 @@ import {
 import { Textarea } from "./textarea";
 import { Ratings } from "./rating";
 import { useState } from "react";
+import { sendBetaFeedback } from "@/packages/notification";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Navbar({ className, ...props }: Props) {
   const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const handleFeedback = () => {
+    sendBetaFeedback({
+      stars: rating,
+      feedback,
+      email: "sks@devflex.co.in",
+      name: "SKS",
+    });
+  };
   return (
     <div
       {...props}
@@ -48,14 +58,21 @@ export function Navbar({ className, ...props }: Props) {
           </AlertDialogHeader>
           <div className="flex flex-col gap-2">
             <h3>Your feedback is important for our continous growth</h3>
-            <Textarea placeholder="Feedback" />
+            <Textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Feedback"
+            />
           </div>
           <div>
             <Ratings rating={rating} setRating={setRating} />
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="bg-[#EA580C] hover:bg-[#F07E43]">
+            <AlertDialogAction
+              onClick={handleFeedback}
+              className="bg-[#EA580C] hover:bg-[#F07E43]"
+            >
               Send
             </AlertDialogAction>
           </AlertDialogFooter>
