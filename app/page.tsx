@@ -244,10 +244,11 @@ export default function Home() {
         >
           <Zap />
         </AlertDialogTrigger>
-        <AlertDialogContent className="max-w-xl py-5 px-3">
-          <ScrollArea className="w-xl rounded-md border p-4">
+        <AlertDialogContent className="max-w-xl max-h-xl py-5 px-3">
+          <ScrollArea className="w-xl h-xl rounded-md border p-4">
             <Code code={`\`\`\`py \n${code}`} />
             <ScrollBar orientation="horizontal" />
+            <ScrollBar orientation="vertical" />
           </ScrollArea>
           <AlertDialogFooter>
             <CopyToClipboard content={code} />
