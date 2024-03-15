@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { Navbar } from "./ui/navbar";
+import { Toaster } from "./ui/toaster";
 
 export function LayoutMain({
   children,
@@ -8,6 +10,12 @@ export function LayoutMain({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col h-screen", className)}>{children}</div>
+    <>
+      <Navbar />
+      <div className={cn("flex flex-col h-screen", className)}>
+        {children}
+        <Toaster />
+      </div>
+    </>
   );
 }

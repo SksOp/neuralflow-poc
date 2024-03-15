@@ -26,7 +26,7 @@ function CustomNode(props: NodeProps<L>) {
         id="a"
         type="target"
         position={Position.Left}
-        style={{ background: "#555" }}
+        style={{ background: "#EA580C", width: "0.6rem", height: "0.6rem" }}
         onConnect={(params) => console.log("handle onConnect", params)}
         isConnectable={isConnectable}
       />
@@ -44,7 +44,7 @@ function CustomNode(props: NodeProps<L>) {
         id="b"
         type="source"
         position={Position.Right}
-        style={{ background: "#555" }}
+        style={{ background: "#EA580C", width: "0.6rem", height: "0.6rem" }}
         onConnect={(params) => console.log("handle onConnect", params)}
         isConnectable={isConnectable}
       />
