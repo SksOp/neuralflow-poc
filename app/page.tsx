@@ -41,7 +41,6 @@ import { cloneDeep } from "lodash";
 import { Layer, Model } from "@/packages/tf";
 import { useToast } from "@/components/ui/use-toast";
 import { cn, downloadStringAsFile } from "@/lib/utils";
-import { ToastAction } from "@radix-ui/react-toast";
 import { Code } from "@/components/ui/code";
 import { CopyToClipboard } from "@/components/copy-to-clipboard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -153,6 +152,7 @@ export default function Home() {
       if (event.key === "Delete") {
         event.preventDefault();
         onNodesDelete();
+        ChatPostMessageArguments;
         onEdgeDelete();
       }
       if (
