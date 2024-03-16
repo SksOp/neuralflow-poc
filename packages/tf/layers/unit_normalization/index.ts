@@ -1,5 +1,5 @@
 import { Layer } from "../base";
-import { args } from "./up_sampling_3d.config";
+import { args } from "./unit_normalization.config";
 
 export const unit_normalization = () =>
   new Layer({

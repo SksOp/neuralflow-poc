@@ -1,5 +1,5 @@
 import { Layer } from "../base";
-import { args } from "./zero_padding_3D.config";
+import { args } from "./zero_padding_1D.config";
 
 
 // tf.keras.layers.ZeroPadding3D(
