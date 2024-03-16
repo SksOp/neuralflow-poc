@@ -102,5 +102,4 @@ export const layers = [
   unit_normalization,
   time_distributed,
   thresholded_relu,
-
 ].sort();

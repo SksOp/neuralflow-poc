@@ -171,6 +171,7 @@ export class Layer {
     id: string;
     ref?: string;
     inputNodesIds: Set<string>;
+    position: { x: number; y: number };
   };
 
   constructor({
@@ -197,6 +198,7 @@ export class Layer {
     this.meta = {
       id: id,
       inputNodesIds: new Set(),
+      position: { x: 0, y: 0 },
     };
   }
 
@@ -302,6 +304,7 @@ export class Layer {
       meta: {
         id: this.meta.id,
         inputNodesIds,
+        position: this.meta.position,
       },
       isMultipleAllowed: this.isMultipleAllowed,
       maxMultiple: this.maxMultiple,

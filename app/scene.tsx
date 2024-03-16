@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
+  Edge,
   MiniMap,
   NodeChange,
   OnConnect,
@@ -28,13 +29,10 @@ import {
 import "reactflow/dist/style.css";
 
 import CustomNode from "@/components/internal/CustomNode";
-import {
-  initialEdges,
-  initialNodes,
-} from "@/components/internal/initial-elements";
+
 import { LayoutMain } from "@/components/layout-main";
 import { Sidebar } from "@/components/internal/Sidebar";
-import { Zap } from "lucide-react";
+import { Save, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Node } from "reactflow";
 import { cloneDeep } from "lodash";
@@ -45,14 +43,18 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { Code } from "@/components/ui/code";
 import { CopyToClipboard } from "@/components/copy-to-clipboard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+  loadModelInstanceFromLocalStorage,
+  saveModel,
+} from "@/components/internal/react-flow.utils";
 
 const nodeTypes = {
   custom: CustomNode,
 };
 
 export default function Home() {
-  const [nodes, setNodes, onNodesChange] = useNodesState<Layer>(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Layer>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
   const { toast } = useToast();
@@ -185,7 +187,6 @@ export default function Home() {
         alert("no selected");
         return;
       }
-      targetNode.data.meta.inputNodesIds.add(sourceNode.data.meta.id);
       targetNode.data.input_nodes.add(sourceNode.data);
     });
     const layers = nodes.map((node) => node.data);
@@ -207,6 +208,35 @@ export default function Home() {
       });
     }
   }, [edges, nodes, toast]);
+
+  const save = useCallback(saveModel, [edges, nodes, toast]);
+
+  useEffect(() => {
+    const localData = loadModelInstanceFromLocalStorage();
+
+    toast({
+      duration: 100000,
+      className: cn(
+        "top-30 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
+      ),
+      title: localData?.err ? "Alert" : "Success",
+      description: localData?.message,
+    });
+
+    if (!localData.model) return;
+
+    localData.model.layers.forEach((l) => {
+      const layer = Layer.load(l);
+      const node: Node<Layer> = {
+        id: layer.meta.id,
+        position: layer.meta.position,
+        type: "custom",
+        data: layer,
+      };
+
+      setNodes((nds) => nds.concat(node));
+    });
+  }, []);
 
   return (
     <LayoutMain>
@@ -261,6 +291,16 @@ export default function Home() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <div className="absolute bottom-32 right-10 ">
+        <Button
+          size="icon"
+          // variant="primary"
+          className="  rounded-full h-[70px] w-[70px]"
+          onClick={() => save(edges, nodes)}
+        >
+          <Save className="" />
+        </Button>
+      </div>
     </LayoutMain>
   );
 }
