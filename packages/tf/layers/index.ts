@@ -13,6 +13,13 @@ import { multiply } from "./multiply";
 import { add } from "./add";
 import { attention } from "./attention";
 import { up_sampling_2d } from "./up_sampling_2d";
+import { average_pool_3d } from "./average_pooling_3D";
+import { conv_3d } from "./conv_3D";
+import { global_average_pool_3d } from "./global_average_pooling_3D";
+import { global_max_pool_3d } from "./global_max_pooling_3D";
+import { maxpooling_3d } from "./maxpooling_3D";
+import { spatial_dropout_3d } from "./spatial_dropout_3D";
+import { up_sampling_3d } from "./up_sampling_3d";
 
 export * from "./input";
 export * from "./base";
@@ -32,4 +39,11 @@ export const layers = [
   add,
   attention,
   up_sampling_2d,
+  average_pool_3d,
+  conv_3d,
+  global_average_pool_3d,
+  global_max_pool_3d,
+  maxpooling_3d,
+  spatial_dropout_3d,
+  up_sampling_3d,
 ].sort();
