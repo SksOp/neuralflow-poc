@@ -1,15 +1,15 @@
 import { Float } from ".";
 import { Bool } from ".";
 import { supported_types } from ".";
-import { Dict } from "./dict";
+// import { Dict } from "./dict";
 import { Int } from "./int";
-import { List } from "./list";
+// import { List } from "./list";
 import { None } from "./none";
 import { BaseType, p_primitive_types } from "./python_primitive";
 import { Str } from "./str";
 import { Tuple } from "./tuple";
 
-export type p_types = p_primitive_types | Dict | List | Tuple | None;
+export type p_types = p_primitive_types | Tuple | None; // | Dict | List
 
 export class Typewriter extends BaseType<p_types["value"]> {
   constructor(p: p_types) {
@@ -59,6 +59,6 @@ export * from "./int";
 export * from "./bool";
 export * from "./type";
 export * from "./none";
-export * from "./list";
-export * from "./dict";
+// export * from "./list";
+// export * from "./dict";
 export * from "./python_primitive";
