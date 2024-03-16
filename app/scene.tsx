@@ -52,12 +52,19 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
-export default function Home() {
-  const [nodes, setNodes, onNodesChange] = useNodesState<Layer>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+export default function Home({
+  initialNodes,
+  initialEdges,
+}: {
+  initialNodes: Node<Layer>[];
+  initialEdges: Edge[];
+}) {
+  const [nodes, setNodes, onNodesChange] = useNodesState<Layer>(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
   const { toast } = useToast();
+
   // const [selectedNode, setSelectedNode] = useState<Node<Layer>>();
   const [code, setCode] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -71,7 +78,7 @@ export default function Home() {
     const selectedNode = getSelectedNode(nodes);
     if (selectedNode) {
       const deepCopiedNode = cloneDeep(selectedNode);
-      deepCopiedNode.data.input_nodes.clear();
+      deepCopiedNode.data.removeAllInputNodes();
       setCopiedNode(deepCopiedNode);
     }
   }, [getSelectedNode, nodes]);
@@ -114,6 +121,8 @@ export default function Home() {
     const newNodeId = `node_${Math.random().toString(36).slice(2, 9)}`;
     const positionX = copiedNode.position.x + 20;
     const positionY = copiedNode.position.y + 20;
+
+    copiedNode.data.meta.id = newNodeId;
 
     const newNode = {
       ...copiedNode,
@@ -199,47 +208,26 @@ export default function Home() {
       console.log(err);
       setIsDialogOpen(false);
       toast({
-        duration: 100000,
-        className: cn(
-          "top-10 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
-        ),
+        duration: 2000,
         title: "Error",
         description: err.message,
       });
     }
   }, [edges, nodes, toast]);
 
-  const save = useCallback(saveModel, [edges, nodes, toast]);
-
-  useEffect(() => {
-    const localData = loadModelInstanceFromLocalStorage();
-
+  const save = useCallback(() => {
+    const resp = saveModel(edges, nodes);
     toast({
-      duration: 100000,
-      className: cn(
-        "top-30 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
-      ),
-      title: localData?.err ? "Alert" : "Success",
-      description: localData?.message,
+      duration: 3000,
+      title: resp.success ? "Success" : "Alert",
+      description: resp.message,
     });
+  }, [edges, nodes, toast]);
 
-    if (!localData.model) return;
-
-    localData.model.layers.forEach((l) => {
-      const layer = Layer.load(l);
-      const node: Node<Layer> = {
-        id: layer.meta.id,
-        position: layer.meta.position,
-        type: "custom",
-        data: layer,
-      };
-
-      setNodes((nds) => nds.concat(node));
-    });
-  }, []);
-
+  // console.log(nodes);
+  // console.log(edges);
   return (
-    <LayoutMain>
+    <>
       <Sidebar reactFlowInstance={reactFlowInstance} setNodes={setNodes} />
       <ReactFlow
         nodes={nodes}
@@ -250,7 +238,7 @@ export default function Home() {
         onEdgesChange={onEdgesChange}
         onInit={(v: any) => {
           toast({
-            duration: 100000,
+            duration: 5000,
             className: cn(
               "top-10 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
             ),
@@ -296,11 +284,11 @@ export default function Home() {
           size="icon"
           // variant="primary"
           className="  rounded-full h-[70px] w-[70px]"
-          onClick={() => save(edges, nodes)}
+          onClick={save}
         >
           <Save className="" />
         </Button>
       </div>
-    </LayoutMain>
+    </>
   );
 }

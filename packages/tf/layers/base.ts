@@ -246,6 +246,7 @@ export class Layer {
 
   removeAllInputNodes() {
     this.input_nodes.clear();
+    this.meta.inputNodesIds.clear();
   }
 
   /**
@@ -293,6 +294,7 @@ export class Layer {
 
   cleanUp() {
     this.input_nodes.clear();
+    this.meta.inputNodesIds.clear();
   }
 
   save(): string {
@@ -323,8 +325,7 @@ export class Layer {
         isMultipleAllowed: l.isMultipleAllowed,
         maxMultiple: l.maxMultiple,
       });
-      layer.meta = l.meta;
-
+      layer.meta = { ...l.meta, inputNodesIds: new Set(l.meta.inputNodesIds) };
       return layer;
     } catch (error) {
       throw new Error(`Failed to load the Layer instance ${s} ${error}`);
