@@ -19,6 +19,7 @@ import { Textarea } from "./textarea";
 import { Ratings } from "./rating";
 import { useState } from "react";
 import { sendBetaFeedback } from "@/packages/notification";
+import Link from "next/link";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -41,12 +42,14 @@ export function Navbar({ className, ...props }: Props) {
         className,
       )}
     >
-      <div className="flex gap-3 items-center">
-        <NFLogo />
-        <p className="text-sm py-0.5 px-2 font-medium bg-[#EA580C]/20 rounded-md">
-          v0.1.1 Beta
-        </p>
-      </div>
+      <Link href="/">
+        <div className="flex gap-3 items-center cursor-pointer">
+          <NFLogo />
+          <p className="text-sm py-0.5 px-2 font-medium bg-[#EA580C]/20 rounded-md">
+            v0.1.1 Beta
+          </p>
+        </div>
+      </Link>
       <AlertDialog>
         <AlertDialogTrigger className="border-2 border-black bg-white py-2 px-4 rounded-md font-medium hover:bg-secondary">
           Feedback
