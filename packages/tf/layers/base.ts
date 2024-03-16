@@ -133,6 +133,7 @@ export class Layer {
   /**
    * Arguments of the layer
    */
+  link = `from tensorflow.keras.layers import `;
   args: Args[];
   /**
    * Keyword arguments of the layer
@@ -259,7 +260,7 @@ export class Layer {
     src/packages/tf/model/base.ts
     `);
 
-    const link = `from tensorflow.keras.layers import ${this.nameTf}`;
+    const link = `${this.link} ${this.nameTf}`;
 
     let code = `${this.meta.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
