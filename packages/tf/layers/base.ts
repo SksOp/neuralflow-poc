@@ -120,7 +120,7 @@ export class Layer {
   maxMultiple: number;
 
   meta: {
-    id?: string;
+    id: string;
     ref?: string;
     inputNodesIds?: Set<string>;
   };
@@ -129,12 +129,14 @@ export class Layer {
     name,
     nameTf,
     args,
+    id,
     isMultipleAllowed = false,
     maxMultiple = Number.MAX_VALUE,
   }: {
     name: string;
     nameTf: string;
     args: ArgsInstance[];
+    id: string;
     isMultipleAllowed?: boolean;
     maxMultiple?: number;
   }) {
@@ -144,19 +146,24 @@ export class Layer {
     this.kwargs = [];
     this.isMultipleAllowed = isMultipleAllowed;
     this.maxMultiple = maxMultiple;
-    this.meta = {};
+    this.meta = {
+      id: id,
+      inputNodesIds: new Set(),
+    };
   }
 
   static of({
     name,
     nameTf,
     args,
+    id,
   }: {
     name: string;
     nameTf: string;
+    id: string;
     args: ArgsInstance[];
   }) {
-    return new Layer({ name, nameTf, args });
+    return new Layer({ id, name, nameTf, args });
   }
 
   /**
