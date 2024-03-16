@@ -185,12 +185,15 @@ export default function Home() {
         alert("no selected");
         return;
       }
+      targetNode.data.meta.inputNodesIds.add(sourceNode.data.meta.id);
       targetNode.data.input_nodes.add(sourceNode.data);
     });
     const layers = nodes.map((node) => node.data);
     try {
-      const model = Model.of({ layers }).compile();
-      setCode(model); //.replace(/(^[ \t]*\n)/gm, "") not needed for now
+      const model = Model.of({ layers });
+      // const modelInstance = model.save()
+      const generatedCode = model.compile();
+      setCode(generatedCode);
     } catch (err: any) {
       console.log(err);
       setIsDialogOpen(false);
