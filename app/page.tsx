@@ -186,11 +186,15 @@ export default function Home() {
         return;
       }
       targetNode.data.input_nodes.add(sourceNode.data);
+      targetNode.data.meta.inputNodesIds.add(sourceNode.data.meta.id);
+      console.log(targetNode.data);
     });
     const layers = nodes.map((node) => node.data);
     try {
-      const model = Model.of({ layers }).compile();
-      setCode(model); //.replace(/(^[ \t]*\n)/gm, "") not needed for now
+      const model = Model.of({ layers });
+      console.log(model.save());
+      const generatedCode = model.compile();
+      setCode(generatedCode); //.replace(/(^[ \t]*\n)/gm, "") not needed for now
     } catch (err: any) {
       console.log(err);
       setIsDialogOpen(false);

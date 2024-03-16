@@ -1,4 +1,4 @@
-import { p_types } from "@/packages/typewriter";
+import { Typewriter, p_types } from "@/packages/typewriter";
 import { cloneDeep } from "lodash";
 
 interface ArgsInstanceBase {
@@ -14,6 +14,14 @@ interface ArgsInstanceWithDefault extends ArgsInstanceBase {
   isRequired: false;
 }
 
+interface ArgsInstanceSaved {
+  name: string;
+  value: p_types | null;
+  defaultValue: p_types | null;
+  isRequired: boolean;
+  saved: true;
+}
+
 export type ArgsInstance = ArgsInstanceRequired | ArgsInstanceWithDefault;
 
 export class Args {
@@ -26,7 +34,14 @@ export class Args {
    * Creates an instance of Args.
    * @param {ArgsInstance} i - An instance of ArgsInstance, enforcing conditional requirement of defaultValue.
    */
-  constructor(i: ArgsInstance) {
+  constructor(i: ArgsInstance | ArgsInstanceSaved) {
+    if ("saved" in i) {
+      this.value = i.value;
+      this.defaultValue = i.defaultValue;
+      this.name = i.name;
+      this.isRequired = i.isRequired;
+      return;
+    }
     this.name = i.name;
     this.isRequired = i.isRequired;
     if (!i.isRequired) {
@@ -52,6 +67,38 @@ export class Args {
 
   getDefaultValue(): p_types | null {
     return cloneDeep(this.defaultValue);
+  }
+
+  save(): string {
+    const value = this.value?.save() ?? null;
+    const defaultValue = this.defaultValue?.save() ?? null;
+    return JSON.stringify({
+      name: this.name,
+      value,
+      defaultValue,
+      isRequired: this.isRequired,
+    });
+  }
+
+  static loadInstance(s: string): ArgsInstanceSaved {
+    try {
+      const a = JSON.parse(s);
+      const defaultValue =
+        a.defaultValue === null
+          ? null
+          : Typewriter.fromSavedData(a.defaultValue);
+      const value = a.value === null ? null : Typewriter.fromSavedData(a.value);
+
+      return {
+        name: a.name,
+        value,
+        defaultValue,
+        isRequired: a.isRequired,
+        saved: true,
+      };
+    } catch (error) {
+      throw new Error("Failed to load the Args instance");
+    }
   }
 
   compileWithDefaultValue(): string {
@@ -122,7 +169,7 @@ export class Layer {
   meta: {
     id: string;
     ref?: string;
-    inputNodesIds?: Set<string>;
+    inputNodesIds: Set<string>;
   };
 
   constructor({
@@ -243,5 +290,40 @@ export class Layer {
 
   cleanUp() {
     this.input_nodes.clear();
+  }
+
+  save(): string {
+    const inputNodesIds = Array.from(this.meta.inputNodesIds);
+    return JSON.stringify({
+      name: this.name,
+      nameTf: this.nameTf,
+      args: this.args.map((a) => a.save()),
+      meta: {
+        id: this.meta.id,
+        inputNodesIds,
+      },
+      isMultipleAllowed: this.isMultipleAllowed,
+      maxMultiple: this.maxMultiple,
+    });
+  }
+
+  static load(s: string): Layer {
+    try {
+      const l = JSON.parse(s);
+
+      const layer = new Layer({
+        name: l.name,
+        nameTf: l.nameTf,
+        args: l.args.map((a: any) => Args.loadInstance(a)),
+        id: l.meta.id,
+        isMultipleAllowed: l.isMultipleAllowed,
+        maxMultiple: l.maxMultiple,
+      });
+      layer.meta = l.meta;
+
+      return layer;
+    } catch (error) {
+      throw new Error(`Failed to load the Layer instance ${s} ${error}`);
+    }
   }
 }
