@@ -40,6 +40,14 @@ import { conv_lstm_3d } from "./conv_lstm_3d";
 import { cropping_2d } from "./cropping_2d";
 import { cropping_3d } from "./cropping_3d";
 import { cropping_1d } from "./cropping_1d";
+import { zero_padding_2d } from "./zero_padding_2D";
+import { zero_padding_3d } from "./zero_padding_3D";
+import { zero_padding_1d } from "./zero_padding_1D";
+import { Wrapper } from "./wrapper";
+import { up_sampling_1d } from "./up_sampling_1d";
+import { unit_normalization } from "./unit_normalization";
+import { time_distributed } from "./time_distributed";
+import { thresholded_relu } from "./thresholded_relu";
 
 export * from "./input";
 export * from "./base";
@@ -86,4 +94,13 @@ export const layers = [
   cropping_2d,
   cropping_3d,
   cropping_1d
+  zero_padding_2d,
+  zero_padding_3d,
+  zero_padding_1d,
+  Wrapper,
+  up_sampling_1d,
+  unit_normalization,
+  time_distributed,
+  thresholded_relu,
+
 ].sort();
