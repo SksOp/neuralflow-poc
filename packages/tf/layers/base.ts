@@ -133,6 +133,7 @@ export class Layer {
   /**
    * Arguments of the layer
    */
+  link = `from tensorflow.keras.layers import `;
   args: Args[];
   /**
    * Keyword arguments of the layer
@@ -170,6 +171,7 @@ export class Layer {
     id: string;
     ref?: string;
     inputNodesIds: Set<string>;
+    position: { x: number; y: number };
   };
 
   constructor({
@@ -196,6 +198,7 @@ export class Layer {
     this.meta = {
       id: id,
       inputNodesIds: new Set(),
+      position: { x: 0, y: 0 },
     };
   }
 
@@ -243,6 +246,7 @@ export class Layer {
 
   removeAllInputNodes() {
     this.input_nodes.clear();
+    this.meta.inputNodesIds.clear();
   }
 
   /**
@@ -259,7 +263,7 @@ export class Layer {
     src/packages/tf/model/base.ts
     `);
 
-    const link = `from tensorflow.keras.layers import ${this.nameTf}`;
+    const link = `${this.link} ${this.nameTf}`;
 
     let code = `${this.meta.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
@@ -290,6 +294,7 @@ export class Layer {
 
   cleanUp() {
     this.input_nodes.clear();
+    this.meta.inputNodesIds.clear();
   }
 
   save(): string {
@@ -301,6 +306,7 @@ export class Layer {
       meta: {
         id: this.meta.id,
         inputNodesIds,
+        position: this.meta.position,
       },
       isMultipleAllowed: this.isMultipleAllowed,
       maxMultiple: this.maxMultiple,
@@ -319,8 +325,7 @@ export class Layer {
         isMultipleAllowed: l.isMultipleAllowed,
         maxMultiple: l.maxMultiple,
       });
-      layer.meta = l.meta;
-
+      layer.meta = { ...l.meta, inputNodesIds: new Set(l.meta.inputNodesIds) };
       return layer;
     } catch (error) {
       throw new Error(`Failed to load the Layer instance ${s} ${error}`);

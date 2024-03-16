@@ -66,15 +66,23 @@ export class Model {
     return `${imports}\n\n${code}`;
   }
 
-  save(): { name: string; layers: string[]; mode: "saved" } {
+  save(): ModelInstance {
     return {
       name: this.name ?? `neuralflow_model_${Date.now()}`,
       layers: this.layers.map((l) => l.save()),
       mode: "saved",
+      version: process.env.NEXT_PUBLIC_MODEL_VERSION ?? "default",
     };
   }
-  static load(s: { name: string; layers: string[]; mode: "saved" }): Model {
+  static load(s: ModelInstance): Model {
     const layers = s.layers.map((l) => Layer.load(l));
     return new Model({ name: s.name, layers });
   }
 }
+
+export type ModelInstance = {
+  name: string;
+  layers: string[];
+  mode: "saved";
+  version: string;
+};
