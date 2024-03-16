@@ -37,6 +37,9 @@ import { conv_3d_transpose } from "./conv_3D_transpose";
 import { conv_lstm_1d } from "./conv_lstm_1d";
 import { conv_lstm_2d } from "./conv_lstm_2d";
 import { conv_lstm_3d } from "./conv_lstm_3d";
+import { cropping_2d } from "./cropping_2d";
+import { cropping_3d } from "./cropping_3d";
+import { cropping_1d } from "./cropping_1d";
 
 export * from "./input";
 export * from "./base";
@@ -80,4 +83,7 @@ export const layers = [
   conv_lstm_1d,
   conv_lstm_2d,
   conv_lstm_3d,
+  cropping_2d,
+  cropping_3d,
+  cropping_1d
 ].sort();
