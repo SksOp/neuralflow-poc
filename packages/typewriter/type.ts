@@ -28,19 +28,19 @@ export type WithStaticOf<T> = {
 // }
 
 export enum supported_types {
-  int = "Int",
-  str = "String",
-  float = "Float",
+  int = "int",
+  str = "string",
+  float = "float",
   // complex = "Complex",
-  bool = "Boolean",
-  list = "List",
-  tuple = "Tuple",
+  bool = "boolean",
+  // list = "list",
+  tuple = "tuple",
   // range = "Range",
-  dict = "Dict",
+  // dict = "dict",
   // frozenset = "FrozenSet",
   // set = "Set",
   // bytes = "Bytes",
   // bytearray = "ByteArray",
   // memoryview = "MemoryView",
-  noneType = "NoneType",
+  noneType = "noneType",
 }

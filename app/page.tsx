@@ -111,6 +111,7 @@ export default function Home() {
     const newNodeId = `node_${Math.random().toString(36).slice(2, 9)}`;
     const positionX = copiedNode.position.x + 20;
     const positionY = copiedNode.position.y + 20;
+    copiedNode.data.setId(newNodeId);
 
     const newNode = {
       ...copiedNode,
@@ -152,7 +153,6 @@ export default function Home() {
       if (event.key === "Delete") {
         event.preventDefault();
         onNodesDelete();
-        ChatPostMessageArguments;
         onEdgeDelete();
       }
       if (
@@ -204,6 +204,8 @@ export default function Home() {
       });
     }
   }, [edges, nodes, toast]);
+
+  // console.log(nodes);
 
   return (
     <LayoutMain>
