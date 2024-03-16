@@ -21,17 +21,21 @@ import { useState } from "react";
 import { sendBetaFeedback } from "@/packages/notification";
 import Link from "next/link";
 
+import { useSession } from "next-auth/react";
+
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Navbar({ className, ...props }: Props) {
+  const { data: session } = useSession();
+  console.log(session);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
   const handleFeedback = () => {
     sendBetaFeedback({
-      stars: rating,
+      stars: rating + 1,
       feedback,
-      email: "sks@devflex.co.in",
-      name: "SKS",
+      email: session?.user?.email ?? "",
+      name: session?.user?.name ?? "", //it'll never be "" as user cant access this without logging in but even in that case feedback should be available name and email are not that important
     });
   };
   return (
