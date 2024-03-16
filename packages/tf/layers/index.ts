@@ -27,6 +27,7 @@ import { additive_attention } from "./additive_attention";
 import { alpha_dropout } from "./alpha_dropout";
 import { average } from "./average";
 import { average_pool_1d } from "./average_pooling_1D";
+import { bidirectional } from "./bidirectional";
 
 export * from "./input";
 export * from "./base";
@@ -60,4 +61,5 @@ export const layers = [
   alpha_dropout,
   average,
   average_pool_1d,
+  bidirectional,
 ].sort();
