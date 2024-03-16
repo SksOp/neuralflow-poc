@@ -28,6 +28,15 @@ import { alpha_dropout } from "./alpha_dropout";
 import { average } from "./average";
 import { average_pool_1d } from "./average_pooling_1D";
 import { bidirectional } from "./bidirectional";
+import { category_encoding } from "./category_encoding";
+import { center_crop } from "./center_crop";
+import { conv_1d } from "./conv_1D";
+import { conv_1d_transpose } from "./conv_1D_transpose";
+import { conv_2d_transpose } from "./conv_2D_transpose";
+import { conv_3d_transpose } from "./conv_3D_transpose";
+import { conv_lstm_1d } from "./conv_lstm_1d";
+import { conv_lstm_2d } from "./conv_lstm_2d";
+import { conv_lstm_3d } from "./conv_lstm_3d";
 
 export * from "./input";
 export * from "./base";
@@ -62,4 +71,13 @@ export const layers = [
   average,
   average_pool_1d,
   bidirectional,
+  category_encoding,
+  center_crop,
+  conv_1d,
+  conv_1d_transpose,
+  conv_2d_transpose,
+  conv_3d_transpose,
+  conv_lstm_1d,
+  conv_lstm_2d,
+  conv_lstm_3d,
 ].sort();
