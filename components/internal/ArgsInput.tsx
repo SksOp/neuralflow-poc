@@ -46,12 +46,12 @@ function ClassFromEnum(enumType: supported_types) {
       return Float;
     case supported_types.bool:
       return Bool;
-    case supported_types.list:
-      return List;
+    // case supported_types.list:
+    //   return List;
     case supported_types.tuple:
       return Tuple;
-    case supported_types.dict:
-      return Dict;
+    // case supported_types.dict:
+    //   return Dict;
     case supported_types.noneType:
       return None;
   }

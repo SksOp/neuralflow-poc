@@ -36,7 +36,7 @@ export class Model {
       const ref = `${layer.name.toLowerCase().replace(/\s+/g, "_")}_${index}`;
 
       if (existingRefs.has(ref)) {
-        const duplicates = sorted.filter((l) => l.ref === ref);
+        const duplicates = sorted.filter((l) => l.getRef() === ref);
 
         throw new Error(`Duplicate name of the layer ${ref} found.\n
         Tensorflow does not allow layers with the same name.\n
@@ -64,5 +64,17 @@ export class Model {
     const code = codeStack.join("\n"); // this is wrong it is giving the opposite order
 
     return `${imports}\n\n${code}`;
+  }
+
+  save(): { name: string; layers: string[]; mode: "saved" } {
+    return {
+      name: this.name ?? `neuralflow_model_${Date.now()}`,
+      layers: this.layers.map((l) => l.save()),
+      mode: "saved",
+    };
+  }
+  static load(s: { name: string; layers: string[]; mode: "saved" }): Model {
+    const layers = s.layers.map((l) => Layer.load(l));
+    return new Model({ name: s.name, layers });
   }
 }

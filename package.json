@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "prisma generate --schema packages/prisma/schema.prisma",
+    "db:push": "prisma db push --schema packages/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema packages/prisma/schema.prisma"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.0",

@@ -27,7 +27,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Navbar({ className, ...props }: Props) {
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
   const handleFeedback = () => {
