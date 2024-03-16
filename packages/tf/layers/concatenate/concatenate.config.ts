@@ -1,9 +1,9 @@
-import { ArgsInstance } from "../../base-layer";
-
+import { Int } from "@/packages/typewriter";
+import { ArgsInstance } from "../base";
 export const args: ArgsInstance[] = [
   {
     name: "axis",
     isRequired: false,
-    defaultValue: -1,
+    defaultValue: Int.of(-1),
   },
 ];

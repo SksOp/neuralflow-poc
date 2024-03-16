@@ -1,8 +1,11 @@
-import { ArgsInstance } from "../../base-layer";
+import { Int, Str, Bool, None, Tuple } from "@/packages/typewriter";
+import { ArgsInstance } from "../base";
+import { Float } from "@/packages/typewriter/float";
 
 export const args: ArgsInstance[] = [
   {
     name: "activation",
-    isRequired: true,
+    isRequired: false,
+    defaultValue: Str.of("linear"),
   },
 ];

@@ -1,53 +1,48 @@
-// shape=None,
-// batch_size=None,
-// name=None,
-// dtype=None,
-// sparse=None,
-// tensor=None,
-// ragged=None,
+import { Bool, Int, None, Tuple } from "@/packages/typewriter";
+import { ArgsInstance } from "../base";
 
-import { ArgsInstance } from "../../base-layer";
-
-// type_spec=None,
 export const args: ArgsInstance[] = [
   {
     name: "shape",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "batch_size",
     isRequired: false,
-    defaultValue: "None",
-  },
-  {
-    name: "name",
-    isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "dtype",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
+  },
+  {
+    name: "input_tensor",
+    isRequired: false,
+    defaultValue: None.of(),
   },
   {
     name: "sparse",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
-    name: "tensor",
+    name: "name",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "ragged",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "type_spec",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
 ];
+
+// (2, 3, 4)
+// Tuple.of(Int.of(32), Int.of(32), Int.of(3)),

@@ -1,9 +1,10 @@
-import { Layer } from "../../base-layer";
+import { Layer } from "../base";
 import { args } from "./activation.config";
 
-export const activation = () =>
+export const activation = ({ id }: { id: string }) =>
   new Layer({
-    name: "Activation",
-    nameTf: "Activation",
+    id,
+    name: "Activation", // to be shown on our UI
+    nameTf: "Activation", // name avaialable in tensorflow
     args,
   });

@@ -1,4 +1,6 @@
-import { ArgsInstance } from "../../base-layer";
+import { None, Str } from "@/packages/typewriter";
+import { ArgsInstance } from "../base";
+
 export const args: ArgsInstance[] = [
   {
     name: "units",
@@ -7,46 +9,46 @@ export const args: ArgsInstance[] = [
   {
     name: "activation",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "use_bias",
     isRequired: false,
-    defaultValue: true,
+    defaultValue: None.of(),
   },
   {
     name: "kernel_initializer",
     isRequired: false,
-    defaultValue: "glorot_uniform",
+    defaultValue: Str.of("glorot_uniform"),
   },
   {
     name: "bias_initializer",
     isRequired: false,
-    defaultValue: "zeros",
+    defaultValue: Str.of("zeros"),
   },
   {
     name: "kernel_regularizer",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "bias_regularizer",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "activity_regularizer",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "kernel_constraint",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
   {
     name: "bias_constraint",
     isRequired: false,
-    defaultValue: "None",
+    defaultValue: None.of(),
   },
 ];

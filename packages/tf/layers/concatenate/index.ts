@@ -1,9 +1,11 @@
-import { Layer } from "../../base-layer";
+import { Layer } from "../base";
 import { args } from "./concatenate.config";
 
-export const concatenate = () =>
+export const concatenate = ({ id }: { id: string }) =>
   new Layer({
-    name: "Concatenate",
-    nameTf: "Concatenate",
+    id,
+    name: "Concatenate", // to be shown on our UI
+    nameTf: "Concatenate", // name avaialable in tensorflow
     args,
+    isMultipleAllowed: true,
   });
