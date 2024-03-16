@@ -23,6 +23,10 @@ import { up_sampling_3d } from "./up_sampling_3d";
 import { abstract_RNN_cell } from "./abstract_RNN_cell";
 import { activation } from "./activation";
 import { activity_regularizer } from "./activity_regularizer";
+import { additive_attention } from "./additive_attention";
+import { alpha_dropout } from "./alpha_dropout";
+import { average } from "./average";
+import { average_pool_1d } from "./average_pooling_1D";
 
 export * from "./input";
 export * from "./base";
@@ -52,4 +56,8 @@ export const layers = [
   abstract_RNN_cell,
   activation,
   activity_regularizer,
+  additive_attention,
+  alpha_dropout,
+  average,
+  average_pool_1d,
 ].sort();
