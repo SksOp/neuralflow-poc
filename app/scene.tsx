@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
+  Edge,
   MiniMap,
   NodeChange,
   OnConnect,
@@ -28,13 +29,10 @@ import {
 import "reactflow/dist/style.css";
 
 import CustomNode from "@/components/internal/CustomNode";
-import {
-  initialEdges,
-  initialNodes,
-} from "@/components/internal/initial-elements";
+
 import { LayoutMain } from "@/components/layout-main";
 import { Sidebar } from "@/components/internal/Sidebar";
-import { Zap } from "lucide-react";
+import { Save, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Node } from "reactflow";
 import { cloneDeep } from "lodash";
@@ -45,17 +43,28 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { Code } from "@/components/ui/code";
 import { CopyToClipboard } from "@/components/copy-to-clipboard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+  loadModelInstanceFromLocalStorage,
+  saveModel,
+} from "@/components/internal/react-flow.utils";
 
 const nodeTypes = {
   custom: CustomNode,
 };
 
-export default function Home() {
+export default function Home({
+  initialNodes,
+  initialEdges,
+}: {
+  initialNodes: Node<Layer>[];
+  initialEdges: Edge[];
+}) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Layer>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
   const { toast } = useToast();
+
   // const [selectedNode, setSelectedNode] = useState<Node<Layer>>();
   const [code, setCode] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -69,7 +78,7 @@ export default function Home() {
     const selectedNode = getSelectedNode(nodes);
     if (selectedNode) {
       const deepCopiedNode = cloneDeep(selectedNode);
-      deepCopiedNode.data.input_nodes.clear();
+      deepCopiedNode.data.removeAllInputNodes();
       setCopiedNode(deepCopiedNode);
     }
   }, [getSelectedNode, nodes]);
@@ -112,6 +121,8 @@ export default function Home() {
     const newNodeId = `node_${Math.random().toString(36).slice(2, 9)}`;
     const positionX = copiedNode.position.x + 20;
     const positionY = copiedNode.position.y + 20;
+
+    copiedNode.data.meta.id = newNodeId;
 
     const newNode = {
       ...copiedNode,
@@ -185,7 +196,6 @@ export default function Home() {
         alert("no selected");
         return;
       }
-      targetNode.data.meta.inputNodesIds.add(sourceNode.data.meta.id);
       targetNode.data.input_nodes.add(sourceNode.data);
     });
     const layers = nodes.map((node) => node.data);
@@ -198,18 +208,26 @@ export default function Home() {
       console.log(err);
       setIsDialogOpen(false);
       toast({
-        duration: 100000,
-        className: cn(
-          "top-10 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
-        ),
+        duration: 2000,
         title: "Error",
         description: err.message,
       });
     }
   }, [edges, nodes, toast]);
 
+  const save = useCallback(() => {
+    const resp = saveModel(edges, nodes);
+    toast({
+      duration: 3000,
+      title: resp.success ? "Success" : "Alert",
+      description: resp.message,
+    });
+  }, [edges, nodes, toast]);
+
+  // console.log(nodes);
+  // console.log(edges);
   return (
-    <LayoutMain>
+    <>
       <Sidebar reactFlowInstance={reactFlowInstance} setNodes={setNodes} />
       <ReactFlow
         nodes={nodes}
@@ -220,7 +238,7 @@ export default function Home() {
         onEdgesChange={onEdgesChange}
         onInit={(v: any) => {
           toast({
-            duration: 100000,
+            duration: 5000,
             className: cn(
               "top-10 right-0 flex fixed md:max-w-[420px] md:top-20 md:right-8",
             ),
@@ -261,6 +279,16 @@ export default function Home() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </LayoutMain>
+      <div className="absolute bottom-32 right-10 ">
+        <Button
+          size="icon"
+          // variant="primary"
+          className="  rounded-full h-[70px] w-[70px]"
+          onClick={save}
+        >
+          <Save className="" />
+        </Button>
+      </div>
+    </>
   );
 }

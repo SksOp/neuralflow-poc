@@ -50,7 +50,7 @@ export function Navbar({ className, ...props }: Props) {
         <div className="flex gap-3 items-center cursor-pointer">
           <NFLogo />
           <p className="text-sm py-0.5 px-2 font-medium bg-[#EA580C]/20 rounded-md">
-            v0.1.1 Beta
+            v{process.env.NEXT_PUBLIC_MODEL_VERSION} Beta
           </p>
         </div>
       </Link>
