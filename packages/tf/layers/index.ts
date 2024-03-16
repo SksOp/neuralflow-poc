@@ -25,6 +25,7 @@ import { zero_padding_3d } from "./zero_padding_3D";
 import { zero_padding_1d } from "./zero_padding_1D";
 import { Wrapper } from "./wrapper";
 import { up_sampling_1d } from "./up_sampling_1d";
+import { unit_normalization } from "./unit_normalization";
 
 export * from "./input";
 export * from "./base";
@@ -56,5 +57,6 @@ export const layers = [
   zero_padding_1d,
   Wrapper,
   up_sampling_1d,
+  unit_normalization,
 
 ].sort();
