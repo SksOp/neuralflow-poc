@@ -101,7 +101,6 @@ export class Layer {
    * batchNormalization_1 = BatchNormalization()(input_for_batchNormalization)
    * batchNormalization_1 is the ref
    */
-  ref: string | null = null;
 
   /**
    * if the layer allow to have input from multiple layers
@@ -119,6 +118,12 @@ export class Layer {
    */
 
   maxMultiple: number;
+
+  meta: {
+    id?: string;
+    ref?: string;
+    inputNodesIds?: Set<string>;
+  };
 
   constructor({
     name,
@@ -139,6 +144,7 @@ export class Layer {
     this.kwargs = [];
     this.isMultipleAllowed = isMultipleAllowed;
     this.maxMultiple = maxMultiple;
+    this.meta = {};
   }
 
   static of({
@@ -158,7 +164,31 @@ export class Layer {
    * @param {string} ref
    */
   setRef(ref: string) {
-    this.ref = ref;
+    this.meta.ref = ref;
+  }
+
+  getRef() {
+    return this.meta.ref;
+  }
+
+  setId(id: string) {
+    this.meta.id = id;
+  }
+
+  getId() {
+    return this.meta.id;
+  }
+
+  addInputNode(node: Layer) {
+    if (this.input_nodes.size >= this.maxMultiple)
+      throw new Error(
+        `The maximum number of input layers allowed for the layer ${this.name} is ${this.maxMultiple}`,
+      );
+    this.input_nodes.add(node);
+  }
+
+  removeAllInputNodes() {
+    this.input_nodes.clear();
   }
 
   /**
@@ -168,7 +198,7 @@ export class Layer {
    * @memberof Layer
    */
   compileLayer(): { code: string; link: string } {
-    if (!this.ref)
+    if (!this.meta.ref)
       throw new Error(`The ref is not set for the layer ${this.name}
     Please set the ref before compiling the layer.
     check the compile method of the model class for more details.
@@ -177,7 +207,7 @@ export class Layer {
 
     const link = `from tensorflow.keras.layers import ${this.nameTf}`;
 
-    let code = `${this.ref} = ${this.nameTf}(`;
+    let code = `${this.meta.ref} = ${this.nameTf}(`;
     this.args.forEach((arg, i) => {
       if (arg.value === null)
         throw new Error(
@@ -194,10 +224,10 @@ export class Layer {
     if (this.input_nodes.size > 0) {
       switch (this.input_nodes.size) {
         case 1:
-          code += `(${Array.from(this.input_nodes, (node) => node.ref).join(", ")})`;
+          code += `(${Array.from(this.input_nodes, (node) => node.meta.ref).join(", ")})`;
           break;
         default:
-          code += `([${Array.from(this.input_nodes, (node) => node.ref).join(", ")}])`;
+          code += `([${Array.from(this.input_nodes, (node) => node.meta.ref).join(", ")}])`;
       }
     }
 

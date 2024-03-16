@@ -30,7 +30,7 @@ export function Sidebar({
       });
 
       const newNode = {
-        id: getId(),
+        id: layer.getId(),
         type: "custom",
         position,
         data: layer,
@@ -47,7 +47,7 @@ export function Sidebar({
         className="flex flex-col justify-around h-[5rem] w-[5rem]"
         variant={"outline"}
         onClick={() => {
-          createLayerNode(input());
+          createLayerNode(input({ id: getId() }));
         }}
       >
         <Play fill="black" />
@@ -62,7 +62,7 @@ export function Sidebar({
           <DropdownMenuLabel>Layers</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {layers.map((layer) => {
-            const newLayer = layer();
+            const newLayer = layer({ id: getId() });
             return (
               <DropdownMenuItem
                 key={layer.name}

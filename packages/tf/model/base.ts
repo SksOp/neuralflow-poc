@@ -36,7 +36,7 @@ export class Model {
       const ref = `${layer.name.toLowerCase().replace(/\s+/g, "_")}_${index}`;
 
       if (existingRefs.has(ref)) {
-        const duplicates = sorted.filter((l) => l.ref === ref);
+        const duplicates = sorted.filter((l) => l.getRef() === ref);
 
         throw new Error(`Duplicate name of the layer ${ref} found.\n
         Tensorflow does not allow layers with the same name.\n
