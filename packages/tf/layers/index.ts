@@ -23,6 +23,8 @@ import { up_sampling_3d } from "./up_sampling_3d";
 import { zero_padding_2d } from "./zero_padding_2D";
 import { zero_padding_3d } from "./zero_padding_3D";
 import { zero_padding_1d } from "./zero_padding_1D";
+import { Wrapper } from "./wrapper";
+import { up_sampling_1d } from "./up_sampling_1d";
 
 export * from "./input";
 export * from "./base";
@@ -52,5 +54,7 @@ export const layers = [
   zero_padding_2d,
   zero_padding_3d,
   zero_padding_1d,
-  
+  Wrapper,
+  up_sampling_1d,
+
 ].sort();
