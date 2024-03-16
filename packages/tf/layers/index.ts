@@ -93,7 +93,7 @@ export const layers = [
   conv_lstm_3d,
   cropping_2d,
   cropping_3d,
-  cropping_1d
+  cropping_1d,
   zero_padding_2d,
   zero_padding_3d,
   zero_padding_1d,
