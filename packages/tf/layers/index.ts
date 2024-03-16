@@ -20,6 +20,9 @@ import { global_max_pool_3d } from "./global_max_pooling_3D";
 import { maxpooling_3d } from "./maxpooling_3D";
 import { spatial_dropout_3d } from "./spatial_dropout_3D";
 import { up_sampling_3d } from "./up_sampling_3d";
+import { abstract_RNN_cell } from "./abstract_RNN_cell";
+import { activation } from "./activation";
+import { activity_regularizer } from "./activity_regularizer";
 
 export * from "./input";
 export * from "./base";
@@ -46,4 +49,7 @@ export const layers = [
   maxpooling_3d,
   spatial_dropout_3d,
   up_sampling_3d,
+  abstract_RNN_cell,
+  activation,
+  activity_regularizer,
 ].sort();
