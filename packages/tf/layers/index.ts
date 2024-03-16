@@ -20,6 +20,8 @@ import { global_max_pool_3d } from "./global_max_pooling_3D";
 import { maxpooling_3d } from "./maxpooling_3D";
 import { spatial_dropout_3d } from "./spatial_dropout_3D";
 import { up_sampling_3d } from "./up_sampling_3d";
+import { zero_padding_2d } from "./zero_padding_2D";
+import { zero_padding_3d } from "./zero_padding_3D";
 
 export * from "./input";
 export * from "./base";
@@ -46,4 +48,6 @@ export const layers = [
   maxpooling_3d,
   spatial_dropout_3d,
   up_sampling_3d,
+  zero_padding_2d,
+  zero_padding_3d,
 ].sort();
