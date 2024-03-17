@@ -308,6 +308,7 @@ export class Layer {
         inputNodesIds,
         position: this.meta.position,
       },
+      link: this.link,
       isMultipleAllowed: this.isMultipleAllowed,
       maxMultiple: this.maxMultiple,
     });
@@ -326,6 +327,7 @@ export class Layer {
         maxMultiple: l.maxMultiple,
       });
       layer.meta = { ...l.meta, inputNodesIds: new Set(l.meta.inputNodesIds) };
+      layer.link = l.link;
       return layer;
     } catch (error) {
       throw new Error(`Failed to load the Layer instance ${s} ${error}`);
