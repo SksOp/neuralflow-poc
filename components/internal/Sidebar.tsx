@@ -43,7 +43,7 @@ export function Sidebar({
   );
 
   return (
-    <div className="absolute flex flex-col top-24 left-5 z-30 gap-2">
+    <div className="absolute flex items-center justify-center bottom-5 z-30 gap-2 w-full">
       <Button
         className="flex flex-col justify-around h-[5rem] w-[5rem]"
         variant={"outline"}
