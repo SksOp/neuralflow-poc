@@ -26,6 +26,7 @@ import {
 import { useState } from "react";
 import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
+import { TFLogo } from "../icons";
 
 let id = 0;
 function get_id() {
@@ -60,7 +61,9 @@ function ClassFromEnum(enumType: supported_types) {
 export function ArgsInput({ arg }: { arg: Args }) {
   return (
     <div key={arg.getCaptalisedName()} className="w-full">
-      <Label className="text-[0.5rem] m-0">{arg.getCaptalisedName()}</Label>
+      <Label className="m-0 flex justify-between text-[0.5rem]">
+        {arg.getCaptalisedName()}
+      </Label>
       <ArgTypeInput arg={arg} />
     </div>
   );
@@ -92,7 +95,7 @@ export function TypeSelector({
 
   return (
     <Select onValueChange={setType}>
-      <SelectTrigger className={cn("text-[0.5rem] h-5", className)}>
+      <SelectTrigger className={cn("h-5 text-[0.5rem]", className)}>
         <SelectValue className="text-xs" placeholder={type} />
       </SelectTrigger>
       <SelectContent>{elements}</SelectContent>
@@ -156,10 +159,10 @@ function BaseInput(props: BaseInputProps<p_types>) {
   switch (type) {
     case supported_types.int:
       return (
-        <div className="flex flex-col gap-0.5 w-full">
+        <div className="flex w-full flex-col gap-0.5">
           <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] border-black/40"
+            className="h-[20px] border-black/40 text-[0.5rem]"
             placeholder={placeholder}
             type="number"
             onChange={(e) => {
@@ -170,10 +173,10 @@ function BaseInput(props: BaseInputProps<p_types>) {
       );
     case supported_types.float:
       return (
-        <div className="flex flex-col gap-0.5 w-full">
+        <div className="flex w-full flex-col gap-0.5">
           <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] border-black/40"
+            className="h-[20px] border-black/40 text-[0.5rem]"
             placeholder={placeholder}
             type="number"
             onChange={(e) => (value.value = parseFloat(e.target.value))}
@@ -182,10 +185,10 @@ function BaseInput(props: BaseInputProps<p_types>) {
       );
     case supported_types.str:
       return (
-        <div className="flex flex-col gap-0.5 w-full">
+        <div className="flex w-full flex-col gap-0.5">
           <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] border-black/40"
+            className="h-[20px] border-black/40 text-[0.5rem]"
             placeholder={placeholder}
             type="text"
             onChange={(e) => (value.value = e.target.value)}
@@ -194,14 +197,14 @@ function BaseInput(props: BaseInputProps<p_types>) {
       );
     case supported_types.bool:
       return (
-        <div className="flex flex-col gap-0.5 w-full">
+        <div className="flex w-full flex-col gap-0.5">
           <TypeSelector className="" type={type} setType={reInitiateType} />
           <Select
             onValueChange={(val) => {
               value.value = val === "true" ? true : false;
             }}
           >
-            <SelectTrigger className="text-[0.5rem] h-[20px] border-black/40">
+            <SelectTrigger className="h-[20px] border-black/40 text-[0.5rem]">
               <SelectValue placeholder={`${value.toCodeString()}`} />
             </SelectTrigger>
             <SelectContent className="">
@@ -213,10 +216,10 @@ function BaseInput(props: BaseInputProps<p_types>) {
       );
     case supported_types.noneType:
       return (
-        <div className="flex flex-col gap-0.5 w-full">
+        <div className="flex w-full flex-col gap-0.5">
           <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] "
+            className="h-[20px] text-[0.5rem] "
             placeholder={"None"}
             disabled
           />
@@ -226,7 +229,7 @@ function BaseInput(props: BaseInputProps<p_types>) {
     case supported_types.tuple:
       return (
         <>
-          <div className="flex flex-col w-full border rounded-sm p-0.5 m-0.5 items-center">
+          <div className="m-0.5 flex w-full flex-col items-center rounded-sm border p-0.5">
             <TypeSelector className="" type={type} setType={reInitiateType} />
             <TupleInput
               className=""
@@ -268,7 +271,7 @@ function TupleInput(props: BaseInputProps<Tuple>) {
       <div
         key={get_id()}
         className={cn(
-          "flex flex-col items-center pl-3 pt-0.5 w-full",
+          "flex w-full flex-col items-center pl-3 pt-0.5",
           className,
         )}
       >
@@ -324,9 +327,9 @@ function AddNewField({
   onChange: (tuple: Tuple) => void;
 }) {
   return (
-    <div className="flex justify-between w-full gap-2">
+    <div className="flex w-full justify-between gap-2">
       <button
-        className="flex w-full text-[0.5rem] items-center gap-0.5 justify-center border rounded-md px-3 my-0.5 hover:bg-gray-100"
+        className="my-0.5 flex w-full items-center justify-center gap-0.5 rounded-md border px-3 text-[0.5rem] hover:bg-gray-100"
         onClick={() => {
           tuple.value.push(ClassFromEnum(supported_types.noneType).of());
           setTypes([...types, supported_types.noneType]);
@@ -337,7 +340,7 @@ function AddNewField({
       </button>
       {tuple.value.length > 0 && (
         <button
-          className="flex w-full text-[0.5rem] items-center gap-0.5 justify-center border rounded-md px-3 my-0.5 hover:bg-gray-100"
+          className="my-0.5 flex w-full items-center justify-center gap-0.5 rounded-md border px-3 text-[0.5rem] hover:bg-gray-100"
           onClick={() => {
             tuple.value.pop();
             setTypes([...types, supported_types.noneType]); // todo check if this causes issue

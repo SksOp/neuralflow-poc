@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArgsInput } from "./ArgsInput";
+import { TFLogo } from "../icons";
 
 function CustomNode(props: NodeProps<L>) {
   const { id, data, selected, isConnectable } = props;
@@ -22,7 +23,7 @@ function CustomNode(props: NodeProps<L>) {
   return (
     <div
       className={cn(
-        "flex flex-col text-xs bg-white shadow-lg border active:border-orange-300 rounded-sm w-52",
+        "flex w-52 flex-col rounded-sm border bg-white text-xs shadow-lg active:border-orange-300",
         selected ? "border-orange-300" : "",
       )}
     >
@@ -36,14 +37,15 @@ function CustomNode(props: NodeProps<L>) {
       />
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <h2
+          <span
             className={
-              "text-center font-bold border-b-primary/10 border-b p-3 w-full"
+              "flex w-full justify-between border-b border-b-primary/10 p-3 text-center font-bold"
             }
           >
             {name}
-          </h2>
-          <div className="px-2 w-full">
+            <TFLogo className="h-3 w-3" />
+          </span>
+          <div className="w-full px-2">
             {args.map((arg) => {
               if (arg.isRequired)
                 return <ArgsInput key={arg.name + id} arg={arg} />;
@@ -53,7 +55,7 @@ function CustomNode(props: NodeProps<L>) {
             Advanced
           </AccordionTrigger>
           <AccordionContent>
-            <div className="px-2 w-full">
+            <div className="w-full px-2">
               {args.map((arg) => {
                 if (!arg.isRequired)
                   return <ArgsInput key={arg.name + id} arg={arg} />;
