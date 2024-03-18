@@ -61,6 +61,8 @@ import { gaussian_dropout } from "./gaussian_dropout";
 import { gaussian_noise } from "./gaussian_noise";
 import { group } from "console";
 import { group_normalization } from "./group_normalization";
+import { hashed_crossing } from "./hashed_crossing";
+import { hashing } from "./hashing";
 
 export * from "./input";
 export * from "./base";
@@ -127,4 +129,6 @@ export const layers = [
   gaussian_dropout,
   gaussian_noise,
   group_normalization,
+  hashed_crossing,
+  hashing,
 ].sort();
