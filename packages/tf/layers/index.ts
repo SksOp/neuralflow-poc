@@ -59,6 +59,8 @@ import { embedding } from "./embeddng";
 import { gru } from "./gru";
 import { gaussian_dropout } from "./gaussian_dropout";
 import { gaussian_noise } from "./gaussian_noise";
+import { group } from "console";
+import { group_normalization } from "./group_normalization";
 
 export * from "./input";
 export * from "./base";
@@ -124,4 +126,5 @@ export const layers = [
   gru,
   gaussian_dropout,
   gaussian_noise,
+  group_normalization,
 ].sort();
