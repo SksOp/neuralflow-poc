@@ -1,4 +1,4 @@
-import { Layers3, Play } from "lucide-react";
+import { Layers3, Play, Save } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -11,6 +11,8 @@ import {
 import { input, layers, Layer as L } from "@/packages/tf";
 import { useCallback } from "react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { saveModel } from "./react-flow.utils";
+import { useToast } from "../ui/use-toast";
 
 let id = 1;
 const getId = () => `${id++}`;
@@ -18,32 +20,47 @@ const getId = () => `${id++}`;
 export function Sidebar({
   reactFlowInstance,
   setNodes,
+  nodes,
+  edges,
 }: {
   reactFlowInstance: any;
   setNodes: any;
+  nodes: any;
+  edges: any;
 }) {
-  const createLayerNode = useCallback(
-    (layer: L) => {
-      if (!reactFlowInstance) return <></>;
-      const position = reactFlowInstance.screenToFlowPosition({
-        x: 1200,
-        y: 144, //this keeps new nodes leveled at the same y axis
-      });
+  const { toast } = useToast();
+  if (!reactFlowInstance) return <></>;
+  console.log(nodes, edges);
+  const createLayerNode = (layer: L) => {
+    if (!reactFlowInstance) return <></>;
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: 1200,
+      y: 144, //this keeps new nodes leveled at the same y axis
+    });
 
-      const newNode = {
-        id: layer.getId(),
-        type: "custom",
-        position,
-        data: layer,
-      };
+    const newNode = {
+      id: layer.getId(),
+      type: "custom",
+      position,
+      data: layer,
+    };
 
-      setNodes((nds: any) => nds.concat(newNode));
-    },
-    [reactFlowInstance, setNodes],
-  );
+    setNodes((nds: any) => nds.concat(newNode));
+  };
+  if (!reactFlowInstance) return <></>;
+
+  const save = () => {
+    const resp = saveModel(edges, nodes);
+    toast({
+      duration: 3000,
+      title: resp.success ? "Success" : "Alert",
+      description: resp.message,
+    });
+  };
 
   return (
     <div className="absolute flex items-center justify-center bottom-5 z-30 gap-2 w-full">
+      {/* input button */}
       <Button
         className="flex flex-col justify-around h-[5rem] w-[5rem]"
         variant={"outline"}
@@ -54,6 +71,7 @@ export function Sidebar({
         <Play fill="black" />
         <h2>Input</h2>
       </Button>
+      {/* layer dropdown */}
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger className="bg-white flex flex-col hover:bg-accent hover:text-accent-foreground items-center border rounded-md p-2 justify-around h-[5rem] w-[5rem]">
           <Layers3 />
@@ -80,6 +98,17 @@ export function Sidebar({
           </ScrollArea>
         </DropdownMenuContent>
       </DropdownMenu>
+      {/* save button */}
+      <div className="">
+        <Button
+          size="icon"
+          // variant="primary"
+          className="rounded-full h-[70px] w-[70px]"
+          onClick={save}
+        >
+          <Save className="" />
+        </Button>
+      </div>
     </div>
   );
 }

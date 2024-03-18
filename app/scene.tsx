@@ -228,7 +228,12 @@ export default function Home({
   // console.log(edges);
   return (
     <>
-      <Sidebar reactFlowInstance={reactFlowInstance} setNodes={setNodes} />
+      <Sidebar
+        reactFlowInstance={reactFlowInstance}
+        setNodes={setNodes}
+        nodes={nodes}
+        edges={edges}
+      />
       <ReactFlow
         nodes={nodes}
         edges={edges}
