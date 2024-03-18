@@ -9,8 +9,7 @@ export const saveModel = (edges: Edge[], nodes: Node<Layer>[]) => {
     localStorage.removeItem("model");
     return { success: true, message: "Cleared Local storage" };
   }
-  //iterate through nodes array and fill inputNodes[]
-  console.log(edges);
+
   edges.forEach((edge) => {
     const sourceNode = nodes.find((node) => {
       return node.id === edge.source;
