@@ -57,6 +57,8 @@ import { elu } from "./elu";
 import { einsum_dense } from "./einsum_dense";
 import { embedding } from "./embeddng";
 import { gru } from "./gru";
+import { gaussian_dropout } from "./gaussian_dropout";
+import { gaussian_noise } from "./gaussian_noise";
 
 export * from "./input";
 export * from "./base";
@@ -120,5 +122,6 @@ export const layers = [
   einsum_dense,
   embedding,
   gru,
-  
+  gaussian_dropout,
+  gaussian_noise,
 ].sort();
