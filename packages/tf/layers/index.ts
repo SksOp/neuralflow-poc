@@ -49,6 +49,10 @@ import { unit_normalization } from "./unit_normalization";
 import { time_distributed } from "./time_distributed";
 import { thresholded_relu } from "./thresholded_relu";
 import { dense_features } from "./dense_features";
+import { depthwise_conv_1d } from "./depthwise_conv_1D";
+import { depthwise_conv_2d } from "./depthwise_conv_2D";
+import { discretization } from "./discretization";
+import { dot } from "./dot";
 
 export * from "./input";
 export * from "./base";
@@ -104,5 +108,8 @@ export const layers = [
   time_distributed,
   thresholded_relu,
   dense_features,
-  
+  depthwise_conv_1d,
+  depthwise_conv_2d,
+  discretization,
+  dot,
 ].sort();
