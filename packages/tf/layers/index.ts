@@ -53,6 +53,8 @@ import { depthwise_conv_1d } from "./depthwise_conv_1D";
 import { depthwise_conv_2d } from "./depthwise_conv_2D";
 import { discretization } from "./discretization";
 import { dot } from "./dot";
+import { elu } from "./elu";
+import { einsum_dense } from "./einsum_dense";
 
 export * from "./input";
 export * from "./base";
@@ -112,4 +114,6 @@ export const layers = [
   depthwise_conv_2d,
   discretization,
   dot,
+  elu,
+  einsum_dense,
 ].sort();
