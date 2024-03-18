@@ -2,8 +2,14 @@ import React, { memo, useCallback, useState } from "react";
 import { Layer as L } from "@/packages/tf";
 import { Handle, NodeProps, Position, useOnSelectionChange } from "reactflow";
 import { cn } from "@/lib/utils";
-import { supported_types } from "@/packages/typewriter";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { ArgsInput } from "./ArgsInput";
+import { TFLogo } from "../icons";
 
 function CustomNode(props: NodeProps<L>) {
   const { id, data, selected, isConnectable } = props;
@@ -14,11 +20,10 @@ function CustomNode(props: NodeProps<L>) {
   //   },
   // });
 
-  // console.log(data, id);
   return (
     <div
       className={cn(
-        "flex flex-col text-xs bg-gray-100 border active:border-orange-300 rounded-sm w-52",
+        "flex w-52 flex-col rounded-sm border bg-white text-xs shadow-lg active:border-orange-300",
         selected ? "border-orange-300" : "",
       )}
     >
@@ -30,16 +35,35 @@ function CustomNode(props: NodeProps<L>) {
         onConnect={(params) => console.log("handle onConnect", params)}
         isConnectable={isConnectable}
       />
-      <h2
-        className={"text-center font-bold border-b-white border-b-2 p-3 w-full"}
-      >
-        {name}
-      </h2>
-      <div className="p-2 w-full">
-        {args.map((arg) => {
-          return <ArgsInput key={arg.name + id} arg={arg} />;
-        })}
-      </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <span
+            className={
+              "flex w-full justify-between border-b border-b-primary/10 p-3 text-center font-bold"
+            }
+          >
+            {name}
+            <TFLogo className="h-3 w-3" />
+          </span>
+          <div className="w-full px-2">
+            {args.map((arg) => {
+              if (arg.isRequired)
+                return <ArgsInput key={arg.name + id} arg={arg} />;
+            })}
+          </div>
+          <AccordionTrigger className="px-3 text-[0.5rem]">
+            Advanced
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="w-full px-2">
+              {args.map((arg) => {
+                if (!arg.isRequired)
+                  return <ArgsInput key={arg.name + id} arg={arg} />;
+              })}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
       <Handle
         id="b"
         type="source"

@@ -10,15 +10,15 @@ function Page() {
   if (loading) {
     return (
       <LayoutMain>
-        <div className="w-full flex justify-center items-center h-[100vh]">
-          <Skeleton className="mx-atuo h-[95vh] w-[95vw] rounded-xl" />
+        <div className="flex h-[100vh] w-full items-center justify-center">
+          <Skeleton className="mx-auto h-[95vh] w-[95vw] rounded-xl" />
         </div>
       </LayoutMain>
     );
   }
   return (
     <LayoutMain>
-      <Home initialEdges={edges} initialNodes={nodes} />;
+      <Home initialEdges={edges} initialNodes={nodes} />
     </LayoutMain>
   );
 }
