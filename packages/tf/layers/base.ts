@@ -293,25 +293,27 @@ export class Layer {
   }
 
   cleanUp() {
-    this.input_nodes.clear();
-    this.meta.inputNodesIds.clear();
+    this.input_nodes = new Set();
+    this.meta.inputNodesIds = new Set();
   }
 
-  save(): string {
-    const inputNodesIds = Array.from(this.meta.inputNodesIds);
-    return JSON.stringify({
-      name: this.name,
-      nameTf: this.nameTf,
-      args: this.args.map((a) => a.save()),
+  static save(l: Layer): string {
+    const inputNodesIds = Array.from(l.meta.inputNodesIds);
+    const layer = JSON.stringify({
+      name: l.name,
+      nameTf: l.nameTf,
+      args: l.args.map((a) => a.save()),
       meta: {
-        id: this.meta.id,
+        id: l.meta.id,
         inputNodesIds,
-        position: this.meta.position,
+        position: l.meta.position,
       },
-      link: this.link,
-      isMultipleAllowed: this.isMultipleAllowed,
-      maxMultiple: this.maxMultiple,
+      link: l.link,
+      isMultipleAllowed: l.isMultipleAllowed,
+      maxMultiple: l.maxMultiple,
     });
+    l.cleanUp();
+    return layer;
   }
 
   static load(s: string): Layer {
