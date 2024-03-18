@@ -56,6 +56,7 @@ import { dot } from "./dot";
 import { elu } from "./elu";
 import { einsum_dense } from "./einsum_dense";
 import { embedding } from "./embeddng";
+import { gru } from "./gru";
 
 export * from "./input";
 export * from "./base";
@@ -118,4 +119,6 @@ export const layers = [
   elu,
   einsum_dense,
   embedding,
+  gru,
+  
 ].sort();
