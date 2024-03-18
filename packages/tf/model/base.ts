@@ -66,10 +66,10 @@ export class Model {
     return `${imports}\n\n${code}`;
   }
 
-  save(): ModelInstance {
+  static save(m: Model): ModelInstance {
     return {
-      name: this.name ?? `neuralflow_model_${Date.now()}`,
-      layers: this.layers.map((l) => l.save()),
+      name: m.name ?? `neuralflow_model_${Date.now()}`,
+      layers: m.layers.map((l) => Layer.save(l)),
       mode: "saved",
       version: process.env.NEXT_PUBLIC_MODEL_VERSION ?? "default",
     };

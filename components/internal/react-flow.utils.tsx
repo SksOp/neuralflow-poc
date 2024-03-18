@@ -32,9 +32,7 @@ export const saveModel = (edges: Edge[], nodes: Node<Layer>[]) => {
   // save to local storage
   try {
     const model = Model.of({ layers });
-    console.log("saving model");
-    console.log(model);
-    const modelInstance = model.save();
+    const modelInstance = Model.save(model);
     localStorage.setItem("model", JSON.stringify(modelInstance));
     return { success: true, message: "Saved to local storage" };
   } catch (err: any) {
