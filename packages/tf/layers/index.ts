@@ -48,6 +48,7 @@ import { up_sampling_1d } from "./up_sampling_1d";
 import { unit_normalization } from "./unit_normalization";
 import { time_distributed } from "./time_distributed";
 import { thresholded_relu } from "./thresholded_relu";
+import { dense_features } from "./dense_features";
 
 export * from "./input";
 export * from "./base";
@@ -102,4 +103,6 @@ export const layers = [
   unit_normalization,
   time_distributed,
   thresholded_relu,
+  dense_features,
+  
 ].sort();
