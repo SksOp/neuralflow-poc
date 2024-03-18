@@ -1,7 +1,7 @@
 import { Int, Str, Bool, None } from "@/packages/typewriter";
 import { ArgsInstance } from "../base";
 import { Float } from "@/packages/typewriter/float";
-
+// arguments
 export const args: ArgsInstance[] = [
   {
     name: "num_bins",
