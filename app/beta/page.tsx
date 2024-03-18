@@ -18,7 +18,7 @@ function Page() {
   }
   return (
     <LayoutMain>
-      <Home initialEdges={edges} initialNodes={nodes} />;
+      <Home initialEdges={edges} initialNodes={nodes} />
     </LayoutMain>
   );
 }

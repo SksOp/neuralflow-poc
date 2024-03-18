@@ -156,89 +156,69 @@ function BaseInput(props: BaseInputProps<p_types>) {
   switch (type) {
     case supported_types.int:
       return (
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-0.5 w-full">
+          <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] w-1/2"
+            className="text-[0.5rem] h-[20px] border-black/40"
             placeholder={placeholder}
             type="number"
             onChange={(e) => {
               return (value.value = parseInt(e.target.value));
             }}
           />
-          <TypeSelector
-            className="w-1/2"
-            type={type}
-            setType={reInitiateType}
-          />
         </div>
       );
     case supported_types.float:
       return (
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-0.5 w-full">
+          <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] w-1/2"
+            className="text-[0.5rem] h-[20px] border-black/40"
             placeholder={placeholder}
             type="number"
             onChange={(e) => (value.value = parseFloat(e.target.value))}
-          />
-          <TypeSelector
-            className="w-1/2"
-            type={type}
-            setType={reInitiateType}
           />
         </div>
       );
     case supported_types.str:
       return (
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-0.5 w-full">
+          <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] w-1/2"
+            className="text-[0.5rem] h-[20px] border-black/40"
             placeholder={placeholder}
             type="text"
             onChange={(e) => (value.value = e.target.value)}
-          />
-          <TypeSelector
-            className="w-1/2"
-            type={type}
-            setType={reInitiateType}
           />
         </div>
       );
     case supported_types.bool:
       return (
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-0.5 w-full">
+          <TypeSelector className="" type={type} setType={reInitiateType} />
           <Select
             onValueChange={(val) => {
               value.value = val === "true" ? true : false;
             }}
           >
-            <SelectTrigger className="text-[0.5rem] h-[20px] w-1/2">
+            <SelectTrigger className="text-[0.5rem] h-[20px] border-black/40">
               <SelectValue placeholder={`${value.toCodeString()}`} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="">
               <SelectItem value="true">True</SelectItem>
               <SelectItem value="false">False</SelectItem>
             </SelectContent>
           </Select>
-          <TypeSelector
-            className="w-1/2"
-            type={type}
-            setType={reInitiateType}
-          />
         </div>
       );
     case supported_types.noneType:
       return (
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-0.5 w-full">
+          <TypeSelector className="" type={type} setType={reInitiateType} />
           <Input
-            className="text-[0.5rem] h-[20px] w-1/2"
+            className="text-[0.5rem] h-[20px] "
             placeholder={"None"}
             disabled
-          />
-          <TypeSelector
-            className="w-1/2"
-            type={type}
-            setType={reInitiateType}
           />
         </div>
       );
@@ -287,7 +267,10 @@ function TupleInput(props: BaseInputProps<Tuple>) {
     return (
       <div
         key={get_id()}
-        className={cn("flex flex-col items-center pl-2 w-full", className)}
+        className={cn(
+          "flex flex-col items-center pl-3 pt-0.5 w-full",
+          className,
+        )}
       >
         <BaseInput
           placeholder={v.value ? v.value.toString() : "None"} // will never be undefined
@@ -341,15 +324,29 @@ function AddNewField({
   onChange: (tuple: Tuple) => void;
 }) {
   return (
-    <button
-      className="flex text-[0.5rem] items-center gap-0.5 justify-center"
-      onClick={() => {
-        tuple.value.push(ClassFromEnum(supported_types.noneType).of());
-        setTypes([...types, supported_types.noneType]);
-        onChange(tuple);
-      }}
-    >
-      Add Entry <span className="text-xs">+</span>
-    </button>
+    <div className="flex justify-between w-full gap-2">
+      <button
+        className="flex w-full text-[0.5rem] items-center gap-0.5 justify-center border rounded-md px-3 my-0.5 hover:bg-gray-100"
+        onClick={() => {
+          tuple.value.push(ClassFromEnum(supported_types.noneType).of());
+          setTypes([...types, supported_types.noneType]);
+          onChange(tuple);
+        }}
+      >
+        <span className="flex items-center gap-1">+ Add</span>
+      </button>
+      {tuple.value.length > 0 && (
+        <button
+          className="flex w-full text-[0.5rem] items-center gap-0.5 justify-center border rounded-md px-3 my-0.5 hover:bg-gray-100"
+          onClick={() => {
+            tuple.value.pop();
+            setTypes([...types, supported_types.noneType]); // todo check if this causes issue
+            onChange(tuple);
+          }}
+        >
+          <span className="flex items-center gap-1">- Remove</span>
+        </button>
+      )}
+    </div>
   );
 }
