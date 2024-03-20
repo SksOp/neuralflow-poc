@@ -22,6 +22,8 @@ import { cloneDeep } from "lodash";
 import { Layer, Model } from "@/packages/tf";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { Warning } from "@/components/ui/warning";
+import { David_Libre } from "next/font/google";
 
 const nodeTypes = {
   custom: CustomNode,
@@ -38,6 +40,7 @@ export default function Home({
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
+  const [isClosed, setIsClosed] = useState<boolean>(false);
   const { toast } = useToast();
 
   const [copiedNode, setCopiedNode] = useState<Node<Layer>>();
@@ -154,6 +157,7 @@ export default function Home({
 
   return (
     <>
+      <Warning isClosed={isClosed} setIsClosed={setIsClosed} />
       <Sidebar
         reactFlowInstance={reactFlowInstance}
         setNodes={setNodes}
@@ -161,6 +165,7 @@ export default function Home({
         edges={edges}
       />
       <ReactFlow
+        className={cn("flex", isClosed ? "flex" : "")}
         nodes={nodes}
         edges={edges}
         onConnect={onConnect}

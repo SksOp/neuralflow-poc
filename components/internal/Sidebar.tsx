@@ -59,7 +59,6 @@ export function Sidebar({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [code, setCode] = useState("");
   const { toast } = useToast();
-  // console.log(nodes, edges);
   const createLayerNode = (layer: L) => {
     if (!reactFlowInstance) return <></>;
     const position = reactFlowInstance.screenToFlowPosition({
