@@ -86,8 +86,10 @@ export default function Home({
     const newCopiedNode = cloneDeep(copiedNode);
     // Use both current timestamp and a random number for the ID
     const newNodeId = `node_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`;
-    const positionX = newCopiedNode.position.x + 20;
-    const positionY = newCopiedNode.position.y + 20;
+    const positionX =
+      newCopiedNode.position.x + Math.floor(Math.random() * (40 - 20 + 1)) + 20;
+    const positionY =
+      newCopiedNode.position.y + Math.floor(Math.random() * (40 - 20 + 1)) + 20;
 
     newCopiedNode.data.meta.id = newNodeId;
 
