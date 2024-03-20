@@ -48,14 +48,10 @@ export default function Home({
     return nodes.find((node) => node.selected);
   }, []);
 
-  const copyNode = useCallback(() => {
-    const selectedNode = getSelectedNode(nodes);
-    if (selectedNode) {
-      const deepCopiedNode = cloneDeep(selectedNode);
-      deepCopiedNode.data.removeAllInputNodes();
-      setCopiedNode(deepCopiedNode);
-    }
-  }, [getSelectedNode, nodes]);
+  const copyNode = useCallback(
+    () => setCopiedNode(getSelectedNode(nodes)),
+    [getSelectedNode, nodes],
+  );
 
   const onEdgeDelete = useCallback(() => {
     const selectedEdge = edges.find((edge) => edge.selected);
@@ -90,19 +86,20 @@ export default function Home({
 
   const pasteNode = useCallback(() => {
     if (!copiedNode || Object.keys(copiedNode).length === 0) return;
+    const newCopiedNode = cloneDeep(copiedNode);
+    // Use both current timestamp and a random number for the ID
+    const newNodeId = `node_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`;
+    const positionX = newCopiedNode.position.x + 20;
+    const positionY = newCopiedNode.position.y + 20;
 
-    const newNodeId = `node_${Math.random().toString(36).slice(2, 9)}`;
-    const positionX = copiedNode.position.x + 20;
-    const positionY = copiedNode.position.y + 20;
-
-    copiedNode.data.meta.id = newNodeId;
+    newCopiedNode.data.meta.id = newNodeId;
 
     const newNode = {
-      ...copiedNode,
+      ...newCopiedNode,
       id: newNodeId,
       selected: false,
       position: {
-        ...copiedNode.position,
+        ...newCopiedNode.position,
         x: positionX + 50, // Offset position for visibility
         y: positionY + 50,
       },
@@ -117,7 +114,7 @@ export default function Home({
     },
     [setEdges],
   );
-  console.log(nodes);
+  // console.log(nodes.map((n) => n.id));
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (

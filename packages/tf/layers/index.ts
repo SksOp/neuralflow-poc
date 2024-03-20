@@ -48,6 +48,21 @@ import { up_sampling_1d } from "./up_sampling_1d";
 import { unit_normalization } from "./unit_normalization";
 import { time_distributed } from "./time_distributed";
 import { thresholded_relu } from "./thresholded_relu";
+import { dense_features } from "./dense_features";
+import { depthwise_conv_1d } from "./depthwise_conv_1D";
+import { depthwise_conv_2d } from "./depthwise_conv_2D";
+import { discretization } from "./discretization";
+import { dot } from "./dot";
+import { elu } from "./elu";
+import { einsum_dense } from "./einsum_dense";
+import { embedding } from "./embeddng";
+import { gru } from "./gru";
+import { gaussian_dropout } from "./gaussian_dropout";
+import { gaussian_noise } from "./gaussian_noise";
+import { group } from "console";
+import { group_normalization } from "./group_normalization";
+import { hashed_crossing } from "./hashed_crossing";
+import { hashing } from "./hashing";
 
 export * from "./input";
 export * from "./base";
@@ -102,6 +117,20 @@ export const layers = [
   unit_normalization,
   time_distributed,
   thresholded_relu,
+  dense_features,
+  depthwise_conv_1d,
+  depthwise_conv_2d,
+  discretization,
+  dot,
+  elu,
+  einsum_dense,
+  embedding,
+  gru,
+  gaussian_dropout,
+  gaussian_noise,
+  group_normalization,
+  hashed_crossing,
+  hashing,
 ].sort((a, b) => {
   const nameA = a.name.toUpperCase(); // ignore upper and lowercase
   const nameB = b.name.toUpperCase(); // ignore upper and lowercase
