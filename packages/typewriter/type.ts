@@ -4,10 +4,6 @@ export interface py {
   toCodeString(): string;
 }
 
-// export type WithStaticOf<T> = {
-//   new (...args: any[]): T; // Constructor signature
-//   of: (...args: any[]) => T;
-// };
 
 
 
