@@ -1,5 +1,5 @@
 import { BaseType } from "../python_primitive";
-import { WithStaticOf, py, supported_types } from "../type";
+import { py, supported_types } from "../type";
 
 export class Float extends BaseType<number> implements py {
   constructor(i: number) {
