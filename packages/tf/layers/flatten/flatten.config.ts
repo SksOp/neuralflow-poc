@@ -1,11 +1,6 @@
-import {  None } from "@/packages/typewriter";
+import { Int, Str, Bool, None, Tuple, Float } from "@/packages/typewriter";
 import { ArgsInstance } from "../base";
 
-
 export const args: ArgsInstance[] = [
-  {
-    name: "data_format",
-    isRequired: false,
-    defaultValue: None.of(),
-  }
+{name: "data_format", isRequired: false, defaultValue: None.of() },
 ];
